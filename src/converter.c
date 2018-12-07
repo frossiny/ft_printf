@@ -1,35 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   converter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/07 11:58:31 by frossiny         ###   ########.fr       */
+/*   Created: 2018/12/07 14:33:18 by frossiny          #+#    #+#             */
+/*   Updated: 2018/12/07 16:26:13 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//Main de test
-
-#include "ft_printf.h"
-
-int main(int argc, char *argv[])
+void	convert(char buf[], char type, void *val)
 {
-	int		test = 42;
-	char	str[] = "Bonjour";
-	double	health = 0.42;
-	char	c = 'X';
-
-	char format[] = "%s %c\n";
-	/*if (argc != 2)
-		printf(format, str, c);
-	else
-		printf(argv[1], str, c);*/
-	if (argc != 2)
-		ft_printf(format, str, c);
-	else
-		ft_printf(argv[1], str, c);
-
-	//printf("%%%d\n", test);
+	//Get handler and call it
+	
 }

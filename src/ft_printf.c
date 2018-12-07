@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:45:31 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/06 17:07:14 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/07 17:21:18 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,41 +17,50 @@
 int		ft_printf(char *format, ...)
 {
 	va_list	arg;
-	int		i;
-	char	*buf[BUFF_SIZE + 1];
+	char	buf[BUFF_SIZE + 1];
+	char	*nexta;
 	t_arg	*alst;
+	int		i;
 
-	i = 0;
 	printf("Format: %s\n", format);
 	parse_args(format, &alst);
-	/*va_start(arg, format);
-	while (format[i])
+	va_start(arg, format);
+	nexta = format;
+	i = 0;
+	while (*format)
 	{
-		if (format[i] == '%')
+		nexta = format + alst->index;
+		printf("Now:  %s\n", format);
+		printf("Next: %s\n", nexta);
+		if (*format == '%' && *(format + 1) != '%')
 		{
-			if (format[i + 1] == 's')
-			{
-				char *s = va_arg(arg, char *);
-				write(1, s, strlen(s));
-				i++;
-			}
-			else if (format[i + 1] == 'c')
-			{
-				char c = va_arg(arg, int);
-				write(1, &c, 1);
-				i++;
-			}
-			else if (format[i + 1] == '%')
-			{
-				write(1, "%", 1);
-				i++;
-			}
-			else
-				write(1, "unknown", 7);
+			//Get handler
+			//Call handler
+			nexta+=2;
 		}
 		else
-			write(1, format + i, 1);
-		i++;
-	}*/
+		{
+			if (nexta)
+				while (format < nexta)
+					buf[i++] = *(format++);
+			else
+			{
+				while (format < format + ft_strlen(format))
+					buf[i++] = *(format++);
+				break ;
+			}
+			nexta++;
+			if (*nexta == '%')
+			{
+				buf[i++] = '%';
+				nexta++;
+			}
+		}
+		format = nexta;
+	}
+	buf[i] = '\0';
+	va_end(arg);
+	del_list(&alst);
+	printf("%s\n", buf);
 	return (0);
 }

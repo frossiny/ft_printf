@@ -6,7 +6,7 @@
 #    By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 11:23:33 by frossiny          #+#    #+#              #
-#    Updated: 2018/12/06 18:01:56 by frossiny         ###   ########.fr        #
+#    Updated: 2018/12/07 16:48:11 by frossiny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,12 @@ LIBFT	=	libft
 SRCDIR	=	src
 INCDIR	=	include
 OBJDIR	=	objs
-FILES 	=	ft_printf.c		\
-			arg_parser.c	\
-			utils.c			\
-			ftoa.c			\
-			itoa.c
+FILES 	=	ft_printf.c				\
+			arg_parser.c			\
+			utils.c					\
+			converters/char.c		\
+			converters/ftoa.c		\
+			converters/integer.c
 SRCS	=	$(addprefix $(SRCDIR)/, $(FILES))
 OBJS 	=	$(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
@@ -47,23 +48,24 @@ $(NAME): $(OBJS)
 	@$(MAKE) -q -C $(LIBFT) || $(MAKE) -C $(LIBFT)
 	@echo "${_BLUE}${_BOLD}[Linking] $(NAME)${_END}"
 	@ar rc $(NAME) $(OBJS)
-	$(CC) $(CFLAGS) -L . -lftprintf -I include src/main.c
+	$(CC) $(CFLAGS) -L . -L $(LIBFT) -lftprintf -lft -I./include -I./libft/includes src/main.c
 	@echo "${_GREEN}${_BOLD}$(NAME) done.${_END}"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@[ -d $(OBJDIR) ] || mkdir -p $(OBJDIR)
+	@[ -d $(OBJDIR)/converters ] || mkdir -p $(OBJDIR)/converters
 	@echo "${_PURPLE}Compiling $<${_END}"
-	@$(CC) $(CFLAGS) -I $(INCDIR) -o $@ -c $<
+	@$(CC) $(CFLAGS) -I $(INCDIR) -I $(LIBFT)/includes -o $@ -c $<
 
 all: $(NAME)
 
 clean:
-	@make -C $(LIBFT) clean
+	#@make -C $(LIBFT) clean
 	@echo "${_RED}${_BOLD}Cleaning obj files...${_END}"
 	@rm -f $(OBJS)
 
 fclean: clean
-	@make -C $(LIBFT) fclean
+	#@make -C $(LIBFT) fclean
 	@echo "${_RED}${_BOLD}Cleaning project...${_END}"
 	@rm -f $(NAME)
 
