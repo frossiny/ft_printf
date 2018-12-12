@@ -6,7 +6,7 @@
 #    By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 11:23:33 by frossiny          #+#    #+#              #
-#    Updated: 2018/12/07 16:48:11 by frossiny         ###   ########.fr        #
+#    Updated: 2018/12/12 14:56:27 by frossiny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ INCDIR	=	include
 OBJDIR	=	objs
 FILES 	=	ft_printf.c				\
 			arg_parser.c			\
+			arg_filler.c			\
 			utils.c					\
 			converters/char.c		\
 			converters/ftoa.c		\
@@ -48,7 +49,7 @@ $(NAME): $(OBJS)
 	@$(MAKE) -q -C $(LIBFT) || $(MAKE) -C $(LIBFT)
 	@echo "${_BLUE}${_BOLD}[Linking] $(NAME)${_END}"
 	@ar rc $(NAME) $(OBJS)
-	$(CC) $(CFLAGS) -L . -L $(LIBFT) -lftprintf -lft -I./include -I./libft/includes src/main.c
+	$(CC) $(CFLAGS) -o ft_printf -L . -L $(LIBFT) -lftprintf -lft -I./include -I./libft/includes src/main.c
 	@echo "${_GREEN}${_BOLD}$(NAME) done.${_END}"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c

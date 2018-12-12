@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:51:59 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/07 14:10:41 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/12 12:22:17 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		is_size(char c)
 
 int		is_type(char c)
 {
-	return (c == 'd' || c == 'i' || c == 'o' || c == 'u' 
+	return (c == 'd' || c == 'i' || c == 'o' || c == 'u' || c == 'f'
 		|| c == 'x' || c == 'X' || c == 'c' || c == 's' || c == 'p');
 }
 

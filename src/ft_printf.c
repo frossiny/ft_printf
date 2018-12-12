@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:45:31 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/07 17:21:18 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/12 15:23:50 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,43 +20,34 @@ int		ft_printf(char *format, ...)
 	char	buf[BUFF_SIZE + 1];
 	char	*nexta;
 	t_arg	*alst;
+	t_arg	*current;
 	int		i;
 
-	printf("Format: %s\n", format);
-	parse_args(format, &alst);
+	printf("Format: %s - Struct size: %lu\n", format, sizeof(t_arg));
 	va_start(arg, format);
+	parse_args(format, &alst, &arg);
 	nexta = format;
 	i = 0;
-	while (*format)
+	current = alst;
+	while (current)
 	{
-		nexta = format + alst->index;
-		printf("Now:  %s\n", format);
-		printf("Next: %s\n", nexta);
-		if (*format == '%' && *(format + 1) != '%')
+		if (current->type == 'd')
+			printf("Int: %lld\n", current->data.ll);
+		else if (current->type == 'u' || current->type == 'o' || current->type == 'x'
+				|| current->type == 'X')
+			printf("Unsigned: %llu\n", current->data.ull);
+		else if (current->type == 'f')
 		{
-			//Get handler
-			//Call handler
-			nexta+=2;
-		}
-		else
-		{
-			if (nexta)
-				while (format < nexta)
-					buf[i++] = *(format++);
+			if (current->size == L)
+				printf("Long float: %.10Lf\n", current->data.ld);
 			else
-			{
-				while (format < format + ft_strlen(format))
-					buf[i++] = *(format++);
-				break ;
-			}
-			nexta++;
-			if (*nexta == '%')
-			{
-				buf[i++] = '%';
-				nexta++;
-			}
+				printf("Float: %f\n", current->data.d);
 		}
-		format = nexta;
+		else if (current->type == 'c')
+			printf("Char: %c\n", current->data.c);
+		else if (current->type == 's')
+			printf("String: %s\n", (char *)current->data.ptr);
+		current = current->next;
 	}
 	buf[i] = '\0';
 	va_end(arg);

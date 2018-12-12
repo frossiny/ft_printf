@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/07 16:48:54 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/12 15:15:49 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_arg	*parse_arg(char *format, size_t *i)
 	return (new);
 }
 
-void	parse_args(char *format, t_arg **alst)
+void	parse_args(char *format, t_arg **alst, va_list *args)
 {
 	size_t	i;
 	t_arg	*current;
@@ -132,6 +132,7 @@ void	parse_args(char *format, t_arg **alst)
 	current = *alst;
 	if (!current)
 		return ;
+	fill_arg(current, args);
 	printf("Index: %lu = %s\n", current->index, format + current->index);
 	printf("Type: %c\n", current->type);
 	printf("Left: %d\n", current->left & 1);
@@ -145,10 +146,10 @@ void	parse_args(char *format, t_arg **alst)
 	while (format[i] != '\0')
 	{
 		current->next = parse_arg(format, &i);
-		if (current->next)
-			current = current->next;
-		else
+		if (current->next == NULL)
 			return ;
+		current = current->next;
+		fill_arg(current, args);
 		printf("Index: %lu = %s\n", current->index, format + current->index);
 		printf("Type: %c\n", current->type);
 		printf("Left: %d\n", current->left & 1);
