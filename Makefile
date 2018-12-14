@@ -6,7 +6,7 @@
 #    By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 11:23:33 by frossiny          #+#    #+#              #
-#    Updated: 2018/12/12 14:56:27 by frossiny         ###   ########.fr        #
+#    Updated: 2018/12/14 15:19:53 by frossiny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ OBJDIR	=	objs
 FILES 	=	ft_printf.c				\
 			arg_parser.c			\
 			arg_filler.c			\
+			converter.c				\
 			utils.c					\
 			converters/char.c		\
 			converters/ftoa.c		\

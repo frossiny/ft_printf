@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:51:59 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/12 12:22:17 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/14 14:34:14 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,22 @@ void	del_list(t_arg **alst)
 	while (*alst)
 	{
 		next = (*alst)->next;
+		free((*alst)->str);
 		free(*alst);
 		*alst = next;
 	}
 	*alst = NULL;
+}
+
+size_t	ft_strcat_c(char *s1, const char *s2, int j)
+{
+	char	*dst;
+	int		i;
+
+	i = -1;
+	dst = s1 + j;
+	while (s2[++i])
+		dst[i] = s2[i];
+	dst[i] = '\0';
+	return (i);
 }

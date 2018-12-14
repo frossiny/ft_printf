@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/12 15:15:49 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/14 15:24:04 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ size_t	parse_type(char *format, size_t i, t_arg *arg)
 		arg->size = L;
 	if (arg->type != none)
 		i++;
-	while (format[i] && !is_type(format[i]))
+	while (format[i] && is_size(format[i]) && !is_type(format[i]))
 		i++;
-	if (format[i] == '\0')
+	if (!is_type(format[i]))
 		return (-1);
 	arg->type = format[i];
 	return (i);
@@ -117,6 +117,7 @@ t_arg	*parse_arg(char *format, size_t *i)
 			free(new);
 			return (NULL);
 		}
+		new->end = *i;
 	}
 	return (new);
 }

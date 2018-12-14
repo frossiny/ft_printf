@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:06:45 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/07 16:41:46 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/14 15:43:53 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ int		ft_atoi_i(const char *str, size_t *i)
 	return ((int)val);
 }
 
-size_t	handle_integer(char gbuf[], t_arg *arg, void *data)
+void	handle_integer(t_arg *arg)
 {
 	char	buf[(arg->width > 12) ? arg->width + 1 : 13];
 	int		i;
 	int		sign;
 	long	nu;
 
-	nu = (int)data;
+	nu = (int)arg->data.ll;
 	i = 0;
 	sign = 0;
 	if (nu < 0)
@@ -47,14 +47,17 @@ size_t	handle_integer(char gbuf[], t_arg *arg, void *data)
 	while (nu > 9)
 	{
 		buf[i++] = '0' + nu % 10;
+		printf("BUF: %s\n", buf);
 		nu /= 10;
 	}
 	buf[i++] = '0' + nu % 10;
+	while (i < arg->width)
+		buf[i++] = (arg->zero) ? '0' : ' ';
 	if (sign)
 		buf[i++] = '-';
 	else if (arg->positive)
 		buf[i++] = '+';
 	buf[i] = '\0';
-	ft_strcat(gbuf, ft_strrev(buf));
-	return (ft_strlen(buf));
+	ft_strrev(buf);
+	arg->str = ft_strdup(buf);
 }

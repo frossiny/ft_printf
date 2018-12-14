@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 14:50:59 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/12 14:57:29 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/14 15:23:56 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,5 @@ void	fill_arg(t_arg *alst, va_list *args)
 		alst->data.ptr = va_arg(*args, char *);
 	else if (alst->type == 'p')
 		alst->data.ptr = va_arg(*args, void *);
+	convert(alst);
 }
