@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:47:37 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/14 15:24:31 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/14 17:16:47 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "libft.h"
 #include "stdio.h"
 
-# define BUFF_SIZE	12
+# define BUFF_SIZE	512
 
 typedef enum				e_asize
 {
@@ -51,7 +51,7 @@ typedef struct				s_arg
 		unsigned long long	ull;
 		double				d;
 		long double			ld;
-		char				c;
+		unsigned char		c;
 		void				*ptr;
 	}						data;
 	struct s_arg			*next;
@@ -72,5 +72,6 @@ size_t					ft_strcat_c(char *s1, const char *s2, int j);
 void					handle_integer(t_arg *arg);
 void					handle_char(t_arg *arg);
 void					handle_str(t_arg *arg);
+void					handle_ptr(t_arg *arg);
 
 #endif

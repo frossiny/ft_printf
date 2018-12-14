@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/14 15:22:22 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/14 17:14:00 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,12 @@ int main(int argc, char *argv[])
 		printf(format, str, c);
 	else
 		printf(argv[1], str, c);*/
-	if (argc != 2)
+	/*if (argc != 2)
 		ft_printf(format, str, c, test, -test / 2);
 	else
 		ft_printf(argv[1], str, c, test, -test / 2);
 	ft_putchar('\n');
-	printf(argv[1], str, c, test, -test / 2);
+	printf(argv[1], str, c, test, -test / 2);*/
+	ft_printf("M: |%-20s|\n", str);
+	printf("O: |%-20s|\n", str);
 }
