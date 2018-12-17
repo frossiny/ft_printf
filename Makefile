@@ -6,7 +6,7 @@
 #    By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 11:23:33 by frossiny          #+#    #+#              #
-#    Updated: 2018/12/14 17:03:59 by frossiny         ###   ########.fr        #
+#    Updated: 2018/12/17 16:27:48 by vsaltel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ FILES 	=	ft_printf.c				\
 			converters/char.c		\
 			converters/ftoa.c		\
 			converters/integer.c	\
-			converters/pointer.c
+			converters/pointer.c	\
+			converters/itoa_base.c
 SRCS	=	$(addprefix $(SRCDIR)/, $(FILES))
 OBJS 	=	$(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 

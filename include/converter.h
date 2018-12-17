@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:31:09 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/14 16:16:15 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/17 16:33:50 by vsaltel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ typedef struct	s_converter
 
 t_conv			g_convlst[] = 
 {
-	{"d", &handle_integer},
-	{"ouxX", &handle_integer},
+	{"bdouxX", &itoa_base},
 	{"c", &handle_char},
 	{"s", &handle_str},
 	{"p", &handle_ptr}
