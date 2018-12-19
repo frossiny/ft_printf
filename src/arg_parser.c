@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/14 15:24:04 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/19 15:25:16 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,15 @@ size_t	parse_size(char *format, size_t i, t_arg *arg)
 {
 	int	ret;
 
-	arg->precision = 0;
 	arg->width = 0;
+	if (format[i] != '.' && (is_type(format[i]) || is_size(format[i])))
+		return (i);
+	arg->precision = 0;
 	if (format[i] != '.')
 	{
 		if ((ret = ft_atoi_i(format, &i)) > 0 && format[i] == '.')
 		{
-			arg->precision = ret;
+			arg->width = ret;
 			i++;
 		}
 		else if (ret > 0)
@@ -62,7 +64,7 @@ size_t	parse_size(char *format, size_t i, t_arg *arg)
 	else
 		i++;
 	if ((ret = ft_atoi_i(format, &i)) > 0)
-		arg->width = ret;
+		arg->precision = ret;
 	return (i);
 }
 
@@ -110,6 +112,7 @@ t_arg	*parse_arg(char *format, size_t *i)
 		if (!(new = (t_arg *)malloc(sizeof(*new))))
 			return (NULL);
 		new->index = (*i)++;
+		new->precision = -1;
 		(*i) = parse_flags(format, *i, new);
 		(*i) = parse_size(format, *i, new);
 		if (((*i) = parse_type(format, *i, new)) == -1)

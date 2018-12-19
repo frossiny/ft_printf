@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/14 17:14:00 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/19 16:04:12 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 	int			test = 42;
 	long long	llt = 9999999999999999;
 	char		str[] = "Bonjour";
-	double		health = 0.42;
+	double		health = 10.0052;
 	long double	tank = 0.333333333333333333L;
 	char		c = 'a';
 
@@ -34,6 +34,8 @@ int main(int argc, char *argv[])
 		ft_printf(argv[1], str, c, test, -test / 2);
 	ft_putchar('\n');
 	printf(argv[1], str, c, test, -test / 2);*/
-	ft_printf("M: |%-20s|\n", str);
-	printf("O: |%-20s|\n", str);
+	int r = ft_printf("M: |%-20s| = |%15.8f|\n", str, health);
+	int r2 = printf("O: |%-20s| = |%15.8f|\n", str, health);
+
+	printf("Count: %d = %d\n", r, r2);
 }
