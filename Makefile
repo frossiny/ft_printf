@@ -6,7 +6,7 @@
 #    By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 11:23:33 by frossiny          #+#    #+#              #
-#    Updated: 2018/12/17 16:27:48 by vsaltel          ###   ########.fr        #
+#    Updated: 2018/12/19 16:29:19 by vsaltel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ FILES 	=	ft_printf.c				\
 			arg_filler.c			\
 			converter.c				\
 			utils.c					\
+			utils2.c					\
 			converters/char.c		\
 			converters/ftoa.c		\
 			converters/integer.c	\
