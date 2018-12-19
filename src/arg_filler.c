@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 14:50:59 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/14 15:23:56 by frossiny         ###   ########.fr       */
+/*   Updated: 2018/12/19 11:44:06 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@ void	fill_arg(t_arg *alst, va_list *args)
 	if (!alst || !args)
 		return ;
 	if (alst->type == 'd')
+	{
 		alst->data.ll = va_arg(*args, long long);
+		if (alst->size == none)
+			alst->data.ll = (int)alst->data.ll;
+	}
 	else if (alst->type == 'u' || alst->type == 'o' || alst->type == 'x'
-			|| alst->type == 'X')
+			|| alst->type == 'X' || alst->type == 'b')
 		alst->data.ull = va_arg(*args, unsigned long long);
 	else if (alst->type == 'f')
 	{
