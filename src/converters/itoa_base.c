@@ -6,24 +6,11 @@
 /*   By: vsaltel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:31:37 by vsaltel           #+#    #+#             */
-/*   Updated: 2018/12/17 16:39:27 by vsaltel          ###   ########.fr       */
+/*   Updated: 2018/12/19 16:41:48 by vsaltel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-int		size_base(char c)
-{
-	if (c == 'b')
-		return (2);
-	if (c == 'o')
-		return (8);
-	if (c == 'u' || c == 'd')
-		return (10);
-	if (c == 'x' || c == 'X')
-		return (16);
-	return (0);
-}
 
 char	*create_base(unsigned int base, char maj)
 {
@@ -57,23 +44,27 @@ int		size_str(t_arg *list, unsigned long long value2, unsigned int base)
 	unsigned int		size;
 
 	size = 0;
+	if (list->data.ull == 0)
+		size++;
 	if (list->type == 'd')
 		while (list->data.ll != 0)
 		{
 			list->data.ll = list->data.ll / base;
 			size++;
 		}
-	else
-		while (list->data.ull > 0)
-		{
-			list->data.ull = list->data.ull / base;
-			size++;
-		}
-	list->data.ull = value2;
-	if (list->positive == -1 || (list->type == 'd' && list->data.ll < 0))
+	while (list->data.ull > 0)
+	{
+		list->data.ull = list->data.ull / base;
 		size++;
-	if (list->width > size)
-		size = list->width;
+	}
+	list->data.ull = value2;
+	if ((list->positive == -1 || list->data.ll < 0 || list->space == -1)
+			&& list->type == 'd')
+		size++;
+	if (list->prefix == -1 && list->type == 'o')
+		size++;
+	else if (list->prefix == -1 && (list->type == 'x' || list->type == 'X'))
+		size = size + 2;
 	return (size);
 }
 
@@ -105,6 +96,33 @@ char	*fill_str(t_arg *list, char *str, unsigned int base, unsigned int *size)
 	return (str);
 }
 
+char	*fill_option(t_arg *arg, char *str, int size)
+{
+	if (arg->type == 'd' && arg->data.ll < 0 && arg->zero == -1)
+		str[0] = '-';
+	else if (arg->type == 'd' && arg->data.ll < 0)
+		str[size] = '-';
+	else if (arg->type == 'd' && arg->positive == -1 && arg->zero == -1)
+		str[0] = '+';
+	else if (arg->type == 'd' && arg->positive == -1)
+		str[size] = '+';
+	else if (arg->type == 'd' && arg->space == -1 && arg->zero == -1)
+		str[0] = ' ';
+	else if (arg->type == 'd' && arg->space == -1)
+		str[size] = ' ';
+	else if ((arg->type == 'x' || arg->type == 'X') && arg->zero == -1
+			&& arg->prefix == -1)
+		str[1] = 'x';
+	else if ((arg->type == 'x' || arg->type == 'X') && arg->prefix == -1)
+	{
+		str[1] = 'x';
+		str[0] = '0';
+	}
+	else if (arg->type == 'o' && arg->prefix == -1)
+		str[size] = '0';
+	return (str);
+}
+
 void	itoa_base(t_arg *arg)
 {
 	char				*str;
@@ -115,21 +133,21 @@ void	itoa_base(t_arg *arg)
 	base = size_base(arg->type);
 	value2 = arg->data.ull;
 	size = size_str(arg, value2, base);
+	if (arg->width > size)
+		size = arg->width;
 	if (!(str = (char *)malloc(sizeof(char) * size + 1)))
 		return ;
-	if (arg->zero == -1)
+	if (arg->zero == -1 && arg->left == 0)
 		ft_memset(str, '0', size);
 	else
 		ft_memset(str, ' ', size);
-	str[size] = '\0';
-	size--;
+	str[size--] = '\0';
+	if (arg->left == -1)
+		size = size_str(arg, value2, base) - 1;
 	if (arg->data.ull == 0)
 		str[size--] = '0';
 	str = fill_str(arg, str, base, &size);
 	arg->data.ull = value2;
-	if (arg->type == 'd' && arg->data.ll < 0)
-		str[size] = '-';
-	else if (arg->positive == -1)
-		str[size] = '+';
+	str = fill_option(arg, str, size);
 	arg->str = str;
 }
