@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   itoa_base.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsaltel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:31:37 by vsaltel           #+#    #+#             */
-/*   Updated: 2018/12/19 16:41:48 by vsaltel          ###   ########.fr       */
+/*   Updated: 2019/01/10 11:39:14 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,7 @@ void	itoa_base(t_arg *arg)
 		size = arg->width;
 	if (!(str = (char *)malloc(sizeof(char) * size + 1)))
 		return ;
-	if (arg->zero == -1 && arg->left == 0)
-		ft_memset(str, '0', size);
-	else
-		ft_memset(str, ' ', size);
+	ft_memset(str, (arg->zero == -1 && arg->left == 0) ? '0' : ' ', size);
 	str[size--] = '\0';
 	if (arg->left == -1)
 		size = size_str(arg, value2, base) - 1;
