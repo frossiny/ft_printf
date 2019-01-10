@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:47:37 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/19 17:27:33 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/10 14:59:04 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct				s_arg
 	{
 		long long			ll;
 		unsigned long long	ull;
-		double				d;
+		double			d;
 		long double			ld;
 		unsigned char		c;
 		void				*ptr;

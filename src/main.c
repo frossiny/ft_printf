@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/10 13:15:49 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/10 16:36:13 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 	int			test = 42;
 	long long	llt = 9999999999999999;
 	char		str[] = "Bonjour";
-	double		health = -1.1;
+	double		health = 728.25;
 	long double	tank = 0.333333333333333333L;
 	char		c = 'a';
 
