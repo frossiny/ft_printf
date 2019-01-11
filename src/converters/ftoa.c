@@ -6,28 +6,30 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:06:42 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/11 14:06:39 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/11 14:59:54 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-long long unsigned		ft_pow(int a, int b)
+unsigned long long	ft_round(double d, int precision)
 {
-	long long unsigned c;
+	long double	ld;
 
-	c = 1;
-	while (b--)
-		c *= a;
-	return (c);
+	ld = d;
+	while (precision--)
+		ld *= 10;
+	if (ld > 0)
+		ld += 0.5;
+	else if (ld < 0)
+		ld -= 0.5;
+	return ((unsigned long long)ld);
 }
 
-int		inttoarg(char buf[], double num, int d)
+long				numtoarg(char buf[], unsigned long long n, int d)
 {
-	int i;
-	int n;
+	long	i;
 
-	n = (int)num;
 	i = 0;
 	while (n)
 	{
@@ -41,7 +43,7 @@ int		inttoarg(char buf[], double num, int d)
 	return (i);
 }
 
-void	pad(char buf[], int *i, t_arg *arg)
+void				pad(char buf[], int *i, t_arg *arg)
 {
 	if (!arg->left)
 		ft_strrev(buf);
@@ -53,7 +55,7 @@ void	pad(char buf[], int *i, t_arg *arg)
 		ft_strrev(buf);
 }
 
-void	handle_float(t_arg *arg)
+void				handle_float(t_arg *arg)
 {
 	char	buf[512];
 	int		i;
@@ -66,19 +68,14 @@ void	handle_float(t_arg *arg)
 		arg->data.d *= -1;
 	}
 	if (arg->data.d > 1)
-		i += inttoarg(buf + i, (int)arg->data.d, 0);
+		i += numtoarg(buf + i, (long long)arg->data.d, 0);
 	else
 		buf[i++] = '0';
 	if (arg->precision > 0)
 	{
 		buf[i++] = '.';
-		d = (arg->data.d - (int)arg->data.d);
-		d = d * ft_pow(10, arg->precision);
-		if (d > 0)
-			d += 0.5;
-		else if (d < 0)
-			d -= 0.5;
-		i += inttoarg(buf + i, (int)d, arg->precision);
+		d = (arg->data.d - (long long)arg->data.d);
+		i += numtoarg(buf + i, ft_round(d, arg->precision), arg->precision);
 	}
 	pad(buf, &i, arg);
 	buf[i] = '\0';
