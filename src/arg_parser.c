@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/10 16:08:58 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/11 14:20:20 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ size_t	parse_type(char *format, size_t i, t_arg *arg)
 	if (!is_type(format[i]))
 		return (-1);
 	arg->type = format[i];
+	if (arg->type == 'f' && arg->precision == -1)
+		arg->precision = 6;
 	return (i);
 }
 
@@ -45,7 +47,7 @@ size_t	parse_size(char *format, size_t i, t_arg *arg)
 	arg->width = 0;
 	if (format[i] != '.' && (is_type(format[i]) || is_size(format[i])))
 		return (i);
-	arg->precision = 0;
+	arg->precision = -1;
 	if (format[i] != '.')
 	{
 		if ((ret = ft_atoi_i(format, &i)) > 0 && format[i] == '.')
@@ -63,7 +65,7 @@ size_t	parse_size(char *format, size_t i, t_arg *arg)
 	}
 	else
 		i++;
-	if ((ret = ft_atoi_i(format, &i)) > 0)
+	if ((ret = ft_atoi_i(format, &i)) > -1)
 		arg->precision = ret;
 	return (i);
 }

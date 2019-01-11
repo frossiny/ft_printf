@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:06:42 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/10 17:43:09 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/11 14:06:39 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,73 +22,65 @@ long long unsigned		ft_pow(int a, int b)
 	return (c);
 }
 
-double	calc(int expo)
+int		inttoarg(char buf[], double num, int d)
 {
-	double result;
+	int i;
+	int n;
 
-	result = 1;
-	if (expo > 0)
-		while (expo--)
-			result *= 2;
-	else if (expo < 0)
-		while (expo++ < 0)
-			result /= 2;
-	return (result);
+	n = (int)num;
+	i = 0;
+	while (n)
+	{
+		buf[i++] = '0' + n % 10;
+		n /= 10;
+	}
+	while (i < d)
+		buf[i++] = '0';
+	buf[i] = '\0';
+	ft_strrev(buf);
+	return (i);
+}
+
+void	pad(char buf[], int *i, t_arg *arg)
+{
+	if (!arg->left)
+		ft_strrev(buf);
+	while (*i < arg->width)
+	{
+		buf[*i++] = ' ';
+	}
+	if (!arg->left)
+		ft_strrev(buf);
 }
 
 void	handle_float(t_arg *arg)
 {
 	char	buf[512];
-	
-	//MSB for sign
+	int		i;
+	double	d;
+
+	i = 0;
 	if (arg->data.ull & 0x8000000000000000)
-		ft_putendl("Neg");
-
-	long sign = arg->data.ull & 0x8000000000000000;
-	long expo = ((arg->data.ull >> 52) & 0x7FF);
-	if (expo > 0)
-		expo = expo - 1023;
-	long mantissa = (arg->data.ull << 12);
-
-	double result = 0.0;
-	int size = 64;
-	while (size > 0)
 	{
-		if ((mantissa & 1) == 1)
-			break;
-		mantissa >>= 1;
-		size--;
+		buf[i++] = '-';
+		arg->data.d *= -1;
 	}
-	size = 64 - size;
-
-	ft_printf("Size: %d\n", size);
-
-	unsigned long long test = arg->data.ull << 12;
-	test >>= size;
-	while (size-- > 0)
+	if (arg->data.d > 1)
+		i += inttoarg(buf + i, (int)arg->data.d, 0);
+	else
+		buf[i++] = '0';
+	if (arg->precision > 0)
 	{
-		ft_printf("%b\n%010b\n", test, ft_pow(2, expo));
-		result += (test & ft_pow(2, expo)) ? calc(expo) : 0;
-		printf("R: %f\n", result);
-		expo--;
+		buf[i++] = '.';
+		d = (arg->data.d - (int)arg->data.d);
+		d = d * ft_pow(10, arg->precision);
+		if (d > 0)
+			d += 0.5;
+		else if (d < 0)
+			d -= 0.5;
+		i += inttoarg(buf + i, (int)d, arg->precision);
 	}
-
-	printf("Res: %f\n", result);
-
-	int i = 0;
-	ft_memset(buf, '0', 511);
-	while (i < 66)
-	{
-		if (i == 64 || i == 52)
-			buf[i++] = ' ';
-		buf[i++] = '0' + (arg->data.ull & 1);
-		arg->data.ull >>= 1;
-	}
+	pad(buf, &i, arg);
 	buf[i] = '\0';
-	ft_putendl(ft_strrev(buf));
-	ft_printf("%b\n", 0x7FF0000000000000);
-
-	ft_printf("Float: %b %ld %b\n", sign, expo, mantissa);
-
-	arg->str = ft_strdup((buf));
+	arg->str = ft_strdup(buf);
 }
