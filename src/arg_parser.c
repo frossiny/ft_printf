@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/11 16:22:08 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/11 16:50:23 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ size_t	parse_size(char *format, size_t i, t_arg *arg)
 	}
 	else
 		i++;
-	if (ft_isdigit(format[i]))
-		arg->precision = ft_atoi_i(format, &i);
+	arg->precision = ft_atoi_i(format, &i);
 	return (i);
 }
 
