@@ -6,11 +6,32 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:06:42 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/11 14:59:54 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/11 16:48:19 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+int					handle_exceptions(t_arg *arg)
+{
+	int		sign;
+
+	sign = (arg->data.ull & 0x8000000000000000) > 0;
+	if ((arg->data.ull & 0x7FFFFFFFFFFFFFFF) == 0x7FF0000000000000)
+	{
+		if (sign)
+			arg->str = ft_strdup("-inf");
+		else
+			arg->str = ft_strdup("inf");
+		return (1);
+	}
+	else if (((arg->data.ull & 0x7FFFFFFFFFFFFFFF) >> 52) == 0x7FF)
+	{
+		arg->str = ft_strdup("nan");
+		return (1);
+	}
+	return (0);
+}
 
 unsigned long long	ft_round(double d, int precision)
 {
@@ -61,6 +82,8 @@ void				handle_float(t_arg *arg)
 	int		i;
 	double	d;
 
+	if (handle_exceptions(arg))
+		return ;
 	i = 0;
 	if (arg->data.ull & 0x8000000000000000)
 	{

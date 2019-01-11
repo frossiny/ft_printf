@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:47:37 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/10 14:59:04 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/11 15:52:46 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include "libft.h"
-#include "stdio.h"
 
 # define BUFF_SIZE	512
 
@@ -42,6 +41,7 @@ typedef struct				s_arg
 	int						left : 1;
 	int						space : 1;
 	int						positive : 1;
+	int						has_precision : 1;
 	int						precision;
 	int						width;
 	t_asize					size;
@@ -49,7 +49,7 @@ typedef struct				s_arg
 	{
 		long long			ll;
 		unsigned long long	ull;
-		double			d;
+		double				d;
 		long double			ld;
 		unsigned char		c;
 		void				*ptr;
@@ -57,23 +57,24 @@ typedef struct				s_arg
 	struct s_arg			*next;
 }							t_arg;
 
-int						ft_printf(char *format, ...);
-void					parse_args(char *format, t_arg **alst, va_list *args);
-void					fill_arg(t_arg *alst, va_list *args);
-void					convert(t_arg *arg);
+int							ft_printf(char *format, ...);
+void						parse_args(char *format, t_arg **alst,
+													va_list *args);
+void						fill_arg(t_arg *alst, va_list *args);
+void						convert(t_arg *arg);
 
-int						is_flag(char c);
-int						is_size(char c);
-int						is_type(char c);
-void					del_list(t_arg **alst);
-int						ft_atoi_i(const char *str, size_t *i);
-size_t					ft_strcat_c(char *s1, const char *s2, int j);
+int							is_flag(char c);
+int							is_size(char c);
+int							is_type(char c);
+void						del_list(t_arg **alst);
+int							ft_atoi_i(const char *str, size_t *i);
+size_t						ft_strcat_c(char *s1, const char *s2, int j);
 
-int						size_base(char c);
-void					itoa_base(t_arg *arg);
-void					handle_float(t_arg *arg);
-void					handle_char(t_arg *arg);
-void					handle_str(t_arg *arg);
-void					handle_ptr(t_arg *arg);
+int							size_base(char c);
+void						itoa_base(t_arg *arg);
+void						handle_float(t_arg *arg);
+void						handle_char(t_arg *arg);
+void						handle_str(t_arg *arg);
+void						handle_ptr(t_arg *arg);
 
 #endif

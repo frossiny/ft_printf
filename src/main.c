@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/11 14:59:13 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/11 16:48:05 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,16 @@ int main(int argc, char *argv[])
 	int			test = 42;
 	long long	llt = 9999999999999999;
 	char		str[] = "Bonjour";
-	double		health = 728.025;
+	double		health = 0x7FF0000000000000;
+	union
+	{
+		double d;
+		unsigned long long ull;
+	} 			un;
 	long double	tank = 0.333333333333333333L;
 	char		c = 'a';
+
+	un.ull = 0x7FFFFFFFFFFFFFFF;
 
 	char format[] = "%s, je suis %c %d mais j'ai pas %d heures de log\n";
 	/*if (argc != 2)
@@ -34,8 +41,8 @@ int main(int argc, char *argv[])
 		ft_printf(argv[1], str, c, test, -test / 2);
 	ft_putchar('\n');
 	printf(argv[1], str, c, test, -test / 2);*/
-	int r = ft_printf("M: |%-20s| = |%f|\n", str, health);
-	int r2 = printf("O: |%-20s| = |%f|\n", str, health);
+	int r = ft_printf("M: |%-20s| = |%f|\n", str, un.d);
+	int r2 = printf("O: |%-20s| = |%f|\n", str, un.d);
 
 	printf("Count: %d = %d\n", r, r2);
 }

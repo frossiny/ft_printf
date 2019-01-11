@@ -6,13 +6,13 @@
 #    By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 11:23:33 by frossiny          #+#    #+#              #
-#    Updated: 2018/12/19 16:29:19 by vsaltel          ###   ########.fr        #
+#    Updated: 2019/01/11 15:48:56 by frossiny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC		=	gcc
 #CFLAGS	+=	-Wall -Werror -Wextra
-CFLAGS = -g -fsanitize=address
+#CFLAGS = -g -fsanitize=address
 
 NAME 	=	libftprintf.a
 LIBFT	=	libft

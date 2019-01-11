@@ -6,12 +6,11 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:45:31 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/19 15:50:29 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/11 15:44:52 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
 #include "string.h"
 
 size_t	write_buf(char buf[], int *i)
@@ -25,42 +24,58 @@ size_t	write_buf(char buf[], int *i)
 	return (c);
 }
 
+size_t	write_arg(char buf[], t_arg *arg, int start, size_t *count)
+{
+	size_t	str_len;
+
+	if (arg->str == NULL)
+		return (start);
+	str_len = ft_strlen(arg->str);
+	if (str_len >= BUFF_SIZE)
+	{
+		*count += write_buf(buf, (int *)&start);
+		write(1, arg->str, str_len);
+		*count += str_len;
+		return (start);
+	}
+	if (start + ft_strlen(arg->str) >= BUFF_SIZE)
+		*count += write_buf(buf, (int *)&start);
+	ft_strcat(buf + start, arg->str);
+	start = ft_strlen(buf);
+	return (start);
+}
+
+size_t	write_end(char buf[], char *format, int j, size_t c)
+{
+	if (ft_strlen(buf) > 0)
+		c += write_buf(buf, &j);
+	write(1, format, ft_strlen(format));
+	return (c + ft_strlen(format));
+}
+
 size_t	write_all(char *format, t_arg *alst)
 {
 	char	buf[BUFF_SIZE + 1];
 	int		i;
 	int		j;
 	size_t	c;
-	
+
 	i = 0;
 	j = 0;
 	c = 0;
+	ft_bzero(buf, BUFF_SIZE + 1);
 	while (format[i])
 	{
 		if (alst)
 		{
-			while (i < alst->index)
-			{
-				buf[j++] = format[i++];
-				if (j == BUFF_SIZE)
-					c+= write_buf(buf, &j);
-			}
-			buf[j] = '\0';
-			if (alst->str)
-			{
-				if (j + ft_strlen(alst->str) >= BUFF_SIZE)
-					c += write_buf(buf, &j);
-				j += ft_strcat_c(buf, alst->str, j);
-				i = alst->end + 1;
-				alst = alst->next;
-			}
+			ft_strncat(buf, format + i, alst->index - i);
+			j += alst->index - i;
+			j = write_arg(buf, alst, j, &c);
+			i = alst->end + 1;
+			alst = alst->next;
 		}
 		else
-		{
-			c += write_buf(buf, &j);
-			write(1, format + i, ft_strlen(format + i));
-			return (c + ft_strlen(format + i));
-		}
+			return (write_end(buf, format + i, j, c));
 	}
 	c += write_buf(buf, &j);
 	return (c);
