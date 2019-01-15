@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:31:37 by vsaltel           #+#    #+#             */
-/*   Updated: 2019/01/10 11:39:14 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 15:20:37 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,23 +102,25 @@ char	*fill_option(t_arg *arg, char *str, int size)
 		str[0] = '-';
 	else if (arg->type == 'd' && arg->data.ll < 0)
 		str[size] = '-';
-	else if (arg->type == 'd' && arg->positive == -1 && arg->zero == -1)
+	if (arg->type == 'd' && arg->positive == -1 && arg->zero == -1)
 		str[0] = '+';
 	else if (arg->type == 'd' && arg->positive == -1)
 		str[size] = '+';
-	else if (arg->type == 'd' && arg->space == -1 && arg->zero == -1)
+	if (arg->type == 'd' && arg->space == -1 && arg->zero == -1)
 		str[0] = ' ';
 	else if (arg->type == 'd' && arg->space == -1)
 		str[size] = ' ';
-	else if ((arg->type == 'x' || arg->type == 'X') && arg->zero == -1
+	if ((arg->type == 'x' || arg->type == 'X') && arg->zero == -1
 			&& arg->prefix == -1)
 		str[1] = 'x';
 	else if ((arg->type == 'x' || arg->type == 'X') && arg->prefix == -1)
 	{
-		str[1] = 'x';
-		str[0] = '0';
+		str[size] = 'x';
+		if (arg->type == 'X')
+			str[size] = 'X';
+		str[size - 1] = '0';
 	}
-	else if (arg->type == 'o' && arg->prefix == -1)
+	if (arg->type == 'o' && arg->prefix == -1)
 		str[size] = '0';
 	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/11 16:50:23 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 14:54:17 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,6 @@ t_arg	*parse_arg(char *format, size_t *i)
 		(*i)++;
 	if (format[*i] == '\0')
 		return (NULL);
-	else if (format[(*i) + 1] && format[(*i) + 1] == '%')
-	{
-		(*i) += 2;
-		return (parse_arg(format, i));
-	}
 	else
 	{
 		if (!(new = (t_arg *)malloc(sizeof(*new))))

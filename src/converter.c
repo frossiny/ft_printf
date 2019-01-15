@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:33:18 by frossiny          #+#    #+#             */
-/*   Updated: 2018/12/19 13:15:59 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 14:53:54 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	convert(t_arg *arg)
 	int		i;
 
 	i = 0;
-	while (i < 5)
+	while (g_convlst[i].dtype)
 	{
 		if (ft_strchr(g_convlst[i].dtype, arg->type))
 		{

@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/11 16:48:05 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 15:03:40 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,19 @@ int main(int argc, char *argv[])
 	int r2 = printf("O: |%-20s| = |%f|\n", str, un.d);
 
 	printf("Count: %d = %d\n", r, r2);
+
+	ft_printf("%.2s is a string\n", "this");
+	//ft_putchar('\n');
+	printf("%.2s is a string\n", "this");
+
+	ft_putchar('\n');
+
+	ft_printf("%.0s is a string\n", "this");
+//	ft_putchar('\n');
+	printf("%.0s is a string\n", "this");
+
+	ft_putchar('\n');
+	ft_putchar('\n');
+	ft_printf("|%5.2s is a string|", "this");
+	
 }

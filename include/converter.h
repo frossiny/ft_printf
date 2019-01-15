@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:31:09 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/11 15:45:34 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 14:53:34 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ t_conv			g_convlst[] =
 	{"f", &handle_float},
 	{"c", &handle_char},
 	{"s", &handle_str},
-	{"p", &handle_ptr}
+	{"p", &handle_ptr},
+	{"%", &handle_modulo},
+	{NULL, NULL}
 };
 
 #endif

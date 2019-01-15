@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:47:37 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/11 15:52:46 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 14:38:03 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ void						handle_float(t_arg *arg);
 void						handle_char(t_arg *arg);
 void						handle_str(t_arg *arg);
 void						handle_ptr(t_arg *arg);
+void						handle_modulo(t_arg *arg);
 
 #endif
