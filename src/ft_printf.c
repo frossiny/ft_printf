@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:45:31 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/15 14:54:26 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 17:31:33 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ size_t	write_buf(char buf[], int *i)
 	int c;
 
 	c = *i;
-	write(1, buf, *i);
+	write(1, buf, c);
 	ft_bzero(buf, BUFF_SIZE);
 	*i = 0;
 	return (c);
@@ -33,13 +33,13 @@ size_t	write_arg(char buf[], t_arg *arg, int start, size_t *count)
 	str_len = ft_strlen(arg->str);
 	if (str_len >= BUFF_SIZE)
 	{
-		*count += write_buf(buf, (int *)&start);
+		*count += write_buf(buf, &start);
 		write(1, arg->str, str_len);
 		*count += str_len;
 		return (start);
 	}
 	if (start + ft_strlen(arg->str) >= BUFF_SIZE)
-		*count += write_buf(buf, (int *)&start);
+		*count += write_buf(buf, &start);
 	ft_strcat(buf + start, arg->str);
 	start = ft_strlen(buf);
 	return (start);

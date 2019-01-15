@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/15 15:03:40 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 17:27:46 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int main(int argc, char *argv[])
 	int			test = 42;
 	long long	llt = 9999999999999999;
 	char		str[] = "Bonjour";
-	double		health = 0x7FF0000000000000;
+	double		health = 10.03;
 	union
 	{
 		double d;
 		unsigned long long ull;
 	} 			un;
 	long double	tank = 0.333333333333333333L;
-	char		c = 'a';
+	//char		c = 'a';
 
 	un.ull = 0x7FFFFFFFFFFFFFFF;
 
@@ -41,23 +41,30 @@ int main(int argc, char *argv[])
 		ft_printf(argv[1], str, c, test, -test / 2);
 	ft_putchar('\n');
 	printf(argv[1], str, c, test, -test / 2);*/
-	int r = ft_printf("M: |%-20s| = |%f|\n", str, un.d);
-	int r2 = printf("O: |%-20s| = |%f|\n", str, un.d);
+	//int r = ft_printf("M: |%-20s| = |%f|\n", str, un.d);
+	//int r2 = printf("O: |%-20s| = |%f|\n", str, un.d);
 
-	printf("Count: %d = %d\n", r, r2);
+//	printf("Count: %d = %d\n", r, r2);
 
-	ft_printf("%.2s is a string\n", "this");
-	//ft_putchar('\n');
-	printf("%.2s is a string\n", "this");
+	/*ft_printf("null %c and text\n", 0);
+	printf("null %c and text\n\n", 0);
 
-	ft_putchar('\n');
+	ft_printf("% c\n", 0);
+	printf("% c\n", 0);*/
 
-	ft_printf("%.0s is a string\n", "this");
-//	ft_putchar('\n');
-	printf("%.0s is a string\n", "this");
+	/*ft_printf("%015.3o", 45200);
+	printf("\n");
+	printf("%015.3o", 45200);
+	printf("\n");*/
 
-	ft_putchar('\n');
-	ft_putchar('\n');
-	ft_printf("|%5.2s is a string|", "this");
+	char c = 0;
+	char sst[] = "Bonjour \0 Test";
+	char *te = ft_strnew(14);
+	while (c < 14)
+	{
+		te[c] = sst[c];
+		c++;
+	}
+	write(1, te, 14);
 	
 }
