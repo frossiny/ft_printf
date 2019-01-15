@@ -6,13 +6,15 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/15 17:46:52 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 18:14:40 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //Main de test
 
 #include "ft_printf.h"
+#include <wchar.h>
+#include <locale.h>
 
 int main(int argc, char *argv[])
 {
@@ -29,6 +31,8 @@ int main(int argc, char *argv[])
 	//char		c = 'a';
 
 	un.ull = 0x7FFFFFFFFFFFFFFF;
+
+	setlocale(LC_ALL, "");
 
 	char format[] = "%s, je suis %c %d mais j'ai pas %d heures de log\n";
 	/*if (argc != 2)
@@ -59,6 +63,8 @@ int main(int argc, char *argv[])
 
 	char c = 0;
 	char sst[] = "Bonjour \0 Test";
-	ft_printf("Bonjour %5c Test", 0);
+	//ft_printf("Bonjour %5c Test", 0);
+
+	printf("%lc", (wint_t)536);
 	
 }

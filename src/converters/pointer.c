@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:00:13 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/15 17:00:00 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 18:34:13 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	handle_ptr(t_arg *arg)
 		buf[i++] = hex[nu % 16];
 		nu /= 16;
 	}
+	if (i == 0 && arg->precision == -1)
+		buf[i++] = '0';
 	while (i < arg->precision)
 		buf[i++] = '0';
 	buf[i++] = 'x';
