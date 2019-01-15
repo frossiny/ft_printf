@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/15 17:27:46 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 17:46:52 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,6 @@ int main(int argc, char *argv[])
 
 	char c = 0;
 	char sst[] = "Bonjour \0 Test";
-	char *te = ft_strnew(14);
-	while (c < 14)
-	{
-		te[c] = sst[c];
-		c++;
-	}
-	write(1, te, 14);
+	ft_printf("Bonjour %5c Test", 0);
 	
 }

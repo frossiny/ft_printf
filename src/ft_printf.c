@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:45:31 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/15 17:31:33 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 17:47:34 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ size_t	write_arg(char buf[], t_arg *arg, int start, size_t *count)
 	if (arg->str == NULL)
 		return (start);
 	str_len = ft_strlen(arg->str);
+	if (arg->type == 'c' && arg->data.c == 0)
+	{
+		*count += write_buf(buf, &start) + str_len + 1;
+		write(1, arg->str, str_len + 1);
+		return (start);
+	}
 	if (str_len >= BUFF_SIZE)
 	{
 		*count += write_buf(buf, &start);
