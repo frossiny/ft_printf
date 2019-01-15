@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:31:37 by vsaltel           #+#    #+#             */
-/*   Updated: 2019/01/15 15:20:37 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 17:27:33 by vsaltel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int		size_str(t_arg *list, unsigned long long value2, unsigned int base)
 		size++;
 	}
 	list->data.ull = value2;
+	if (list->precision > size && list->precision != -1)
+		size = list->precision;
 	if ((list->positive == -1 || list->data.ll < 0 || list->space == -1)
 			&& list->type == 'd')
 		size++;
@@ -71,7 +73,9 @@ int		size_str(t_arg *list, unsigned long long value2, unsigned int base)
 char	*fill_str(t_arg *list, char *str, unsigned int base, unsigned int *size)
 {
 	char			*base_str;
+	int				nb;
 
+	nb = 0;
 	if ((base_str = create_base(base, list->type)) == NULL)
 		return (NULL);
 	if (list->type == 'd')
@@ -80,18 +84,20 @@ char	*fill_str(t_arg *list, char *str, unsigned int base, unsigned int *size)
 			list->data.ll = -list->data.ll;
 		while (list->data.ll > 0)
 		{
-			str[*size] = base_str[list->data.ll % base];
+			str[(*size)--] = base_str[list->data.ll % base];
 			list->data.ll = list->data.ll / base;
-			(*size)--;
+			nb++;
 		}
 	}
 	else
 		while (list->data.ull > 0)
 		{
-			str[*size] = base_str[list->data.ull % base];
+			str[(*size)--] = base_str[list->data.ull % base];
 			list->data.ull = list->data.ull / base;
-			(*size)--;
+			nb++;
 		}
+	while (nb++ < list->precision && list->precision != -1)
+		str[(*size)--] = '0';
 	free(base_str);
 	return (str);
 }
@@ -102,17 +108,22 @@ char	*fill_option(t_arg *arg, char *str, int size)
 		str[0] = '-';
 	else if (arg->type == 'd' && arg->data.ll < 0)
 		str[size] = '-';
-	if (arg->type == 'd' && arg->positive == -1 && arg->zero == -1)
+	else if (arg->type == 'd' && arg->positive == -1 && arg->zero == -1)
 		str[0] = '+';
 	else if (arg->type == 'd' && arg->positive == -1)
 		str[size] = '+';
-	if (arg->type == 'd' && arg->space == -1 && arg->zero == -1)
+	else if (arg->type == 'd' && arg->space == -1 && arg->zero == -1)
 		str[0] = ' ';
 	else if (arg->type == 'd' && arg->space == -1)
 		str[size] = ' ';
-	if ((arg->type == 'x' || arg->type == 'X') && arg->zero == -1
+	else if ((arg->type == 'x' || arg->type == 'X') && arg->zero == -1
 			&& arg->prefix == -1)
+	{
 		str[1] = 'x';
+		if (arg->type == 'X')
+			str[1] = 'X';
+		str[0] = '0';
+	}
 	else if ((arg->type == 'x' || arg->type == 'X') && arg->prefix == -1)
 	{
 		str[size] = 'x';
@@ -120,7 +131,7 @@ char	*fill_option(t_arg *arg, char *str, int size)
 			str[size] = 'X';
 		str[size - 1] = '0';
 	}
-	if (arg->type == 'o' && arg->prefix == -1)
+	else if (arg->type == 'o' && arg->prefix == -1)
 		str[size] = '0';
 	return (str);
 }
