@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:31:37 by vsaltel           #+#    #+#             */
-/*   Updated: 2019/01/17 14:59:51 by vsaltel          ###   ########.fr       */
+/*   Updated: 2019/01/17 15:41:39 by vsaltel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*fill_str(t_arg *list, unsigned int base, unsigned int *size)
 	int				nb;
 
 	nb = 0;
+	if (list->data.ull == 0)
+		nb++;
 	if ((base_str = create_base(base, list->type)) == NULL)
 		return (NULL);
 	if (list->type == 'd')
