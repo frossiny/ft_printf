@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:31:37 by vsaltel           #+#    #+#             */
-/*   Updated: 2019/01/17 15:41:39 by vsaltel          ###   ########.fr       */
+/*   Updated: 2019/01/17 16:58:57 by vsaltel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ int		size_str(t_arg *list, unsigned int base, unsigned int *size)
 
 	value2 = list->data.ull;
 	*size = 0;
+	
 	if (list->data.ull == 0 && list->precision != 0)
 		(*size)++;
-	if (list->type == 'd')
+	if (list->type == 'd' || list->type == 'i')
 		while (list->data.ll != 0)
 		{
 			list->data.ll = list->data.ll / base;
@@ -35,7 +36,7 @@ int		size_str(t_arg *list, unsigned int base, unsigned int *size)
 	if (list->precision > *size && list->precision != -1)
 		*size = list->precision;
 	if ((list->positive == -1 || list->data.ll < 0 || list->space == -1)
-			&& list->type == 'd')
+			&& (list->type == 'd' || list->type == 'i'))
 		(*size)++;
 	if (list->prefix == -1 && list->type == 'o')
 		(*size)++;
@@ -54,13 +55,14 @@ char	*fill_str(t_arg *list, unsigned int base, unsigned int *size)
 		nb++;
 	if ((base_str = create_base(base, list->type)) == NULL)
 		return (NULL);
-	if (list->type == 'd')
+	if (list->type == 'd' || list->type == 'i')
 	{
-		if (list->data.ll < 0)
-			list->data.ll = -list->data.ll;
-		while (list->data.ll > 0)
+		while (list->data.ll != 0)
 		{
-			list->str[(*size)--] = base_str[list->data.ll % base];
+			if (list->data.ll < 0)
+				list->str[(*size)--] = base_str[-(list->data.ll % base)];
+			else
+				list->str[(*size)--] = base_str[list->data.ll % base];
 			list->data.ll = list->data.ll / base;
 			nb++;
 		}
@@ -80,17 +82,17 @@ char	*fill_str(t_arg *list, unsigned int base, unsigned int *size)
 
 char	*fill_option(t_arg *arg, char *str, int size)
 {
-	if (arg->type == 'd' && arg->data.ll < 0 && arg->zero == -1)
+	if ((arg->type == 'd' || list->type == 'i') && arg->data.ll < 0 && arg->zero == -1)
 		str[0] = '-';
-	else if (arg->type == 'd' && arg->data.ll < 0)
+	else if ((arg->type == 'd' || list->type == 'i') && arg->data.ll < 0)
 		str[size] = '-';
-	else if (arg->type == 'd' && arg->positive == -1 && arg->zero == -1)
+	else if ((arg->type == 'd' || list->type == 'i') && arg->positive == -1 && arg->zero == -1)
 		str[0] = '+';
-	else if (arg->type == 'd' && arg->positive == -1)
+	else if ((arg->type == 'd' || list->type == 'i') && arg->positive == -1)
 		str[size] = '+';
-	else if (arg->type == 'd' && arg->space == -1 && arg->zero == -1)
+	else if ((arg->type == 'd' || list->type == 'i') && arg->space == -1 && arg->zero == -1)
 		str[0] = ' ';
-	else if (arg->type == 'd' && arg->space == -1)
+	else if ((arg->type == 'd' || list->type == 'i') && arg->space == -1)
 		str[size] = ' ';
 	else if ((arg->type == 'x' || arg->type == 'X') && arg->zero == -1
 			&& arg->prefix == -1 && arg->data.ull != 0)
