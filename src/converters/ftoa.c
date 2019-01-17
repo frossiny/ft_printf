@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:06:42 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/11 16:48:19 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/17 13:58:17 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void				pad(char buf[], int *i, t_arg *arg)
 		ft_strrev(buf);
 	while (*i < arg->width)
 	{
-		buf[*i++] = ' ';
+		buf[(*i)++] = ' ';
 	}
 	if (!arg->left)
 		ft_strrev(buf);
