@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/17 16:02:49 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/17 18:19:27 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	parse_type(char *format, size_t i, t_arg *arg)
 		i++;
 	while (format[i] && (ft_isdigit(format[i]) || format[i] == '.'))
 		i++;
-	if (format[i] == '\0')
-		return ;
 	arg->size = none;
 	arg->type = '\0';
 	if (format[i] == 'h')
@@ -30,11 +28,13 @@ void	parse_type(char *format, size_t i, t_arg *arg)
 		arg->size = L;
 	if (arg->size != none)
 		i += (arg->size == hh || arg->size == ll) ? 2 : 1;
-	while (format[i] && is_size(format[i]) && !is_type(format[i]))
+	while (format[i] && is_size(format[i]))
 		i++;
-	if (is_type(format[i]))
-		arg->type = format[i];
-	arg->end = arg->type ? i : i - 1;
+	if (format[i] == '\0')
+		arg->end = i - 1;
+	else
+		arg->end = i;
+	arg->type = format[i];
 }
 
 void	parse_size(char *format, size_t i, t_arg *arg)
@@ -43,8 +43,6 @@ void	parse_size(char *format, size_t i, t_arg *arg)
 
 	arg->width = 0;
 	arg->precision = -1;
-	if (arg->type == '\0')
-		return ;
 	while (format[i] != '\0' && is_flag(format[i]))
 		i++;
 	if (format[i] == '\0' ||
@@ -71,8 +69,6 @@ void	parse_flags(char *format, size_t i, t_arg *arg)
 	arg->prefix = 0;
 	arg->zero = 0;
 	arg->space = 0;
-	if (arg->type == '\0')
-		return ;
 	while (is_flag(format[i]))
 	{
 		if (format[i] == '-')
@@ -103,6 +99,8 @@ t_arg	*parse_arg(char *format, size_t i)
 			i++;
 		if (!format[i] || !(new = (t_arg *)malloc(sizeof(*new))))
 			return (NULL);
+		new->str = NULL;
+		new->next = NULL;
 		new->index = i++;
 		parse_type(format, i, new);
 		parse_size(format, i, new);
@@ -124,32 +122,12 @@ void	parse_args(char *format, t_arg **alst, va_list *args)
 		return ;
 	i = current->end + 1;
 	fill_arg(current, args);
-	/*printf("Index: %lu = %s\n", current->index, format + current->index);
-	printf("Type: %c\n", current->type);
-	printf("Left: %d\n", current->left & 1);
-	printf("Zero: %d\n", current->zero & 1);
-	printf("Positive: %d\n", current->positive & 1);
-	printf("Prefix: %d\n", current->prefix & 1);
-	printf("Space: %d\n", current->space & 1);
-	printf("Precision: %d\n", current->precision);
-	printf("Width: %d\n", current->width);
-	printf("Size: %d\n\n", (int)current->size);*/
 	while (format[i] != '\0')
 	{
 		current->next = parse_arg(format, i);
 		if (current->next == NULL)
 			return ;
 		current = current->next;
-		/*printf("Index: %lu = %s\n", current->index, format + current->index);
-		printf("Type: %c\n", current->type);
-		printf("Left: %d\n", current->left & 1);
-		printf("Zero: %d\n", current->zero & 1);
-		printf("Positive: %d\n", current->positive & 1);
-		printf("Prefix: %d\n", current->prefix & 1);
-		printf("Space: %d\n", current->space & 1);
-		printf("Precision: %d\n", current->precision);
-		printf("Width: %d\n", current->width);
-		printf("Size: %d\n\n", (int)current->size);*/
 		i = current->end + 1;
 		fill_arg(current, args);
 	}

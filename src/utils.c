@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:51:59 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/17 14:27:45 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/17 18:19:32 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		is_flag(char c)
 
 int		is_size(char c)
 {
-	return (c == 'h' || c == 'l' || c == 'j' || c == 't' || c == 'z');
+	return (c == 'h' || c == 'l');
 }
 
 int		is_type(char c)
@@ -33,11 +33,10 @@ void	del_list(t_arg **alst)
 {
 	t_arg	*next;
 
-	while (*alst)
+	while (*alst != NULL)
 	{
 		next = (*alst)->next;
-		if ((*alst)->type)
-			free((*alst)->str);
+		free((*alst)->str);
 		free(*alst);
 		*alst = next;
 	}

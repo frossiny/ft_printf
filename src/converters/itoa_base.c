@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:31:37 by vsaltel           #+#    #+#             */
-/*   Updated: 2019/01/17 16:58:57 by vsaltel          ###   ########.fr       */
+/*   Updated: 2019/01/17 17:16:24 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,17 @@ char	*fill_str(t_arg *list, unsigned int base, unsigned int *size)
 
 char	*fill_option(t_arg *arg, char *str, int size)
 {
-	if ((arg->type == 'd' || list->type == 'i') && arg->data.ll < 0 && arg->zero == -1)
+	if ((arg->type == 'd' || arg->type == 'i') && arg->data.ll < 0 && arg->zero == -1)
 		str[0] = '-';
-	else if ((arg->type == 'd' || list->type == 'i') && arg->data.ll < 0)
+	else if ((arg->type == 'd' || arg->type == 'i') && arg->data.ll < 0)
 		str[size] = '-';
-	else if ((arg->type == 'd' || list->type == 'i') && arg->positive == -1 && arg->zero == -1)
+	else if ((arg->type == 'd' || arg->type == 'i') && arg->positive == -1 && arg->zero == -1)
 		str[0] = '+';
-	else if ((arg->type == 'd' || list->type == 'i') && arg->positive == -1)
+	else if ((arg->type == 'd' || arg->type == 'i') && arg->positive == -1)
 		str[size] = '+';
-	else if ((arg->type == 'd' || list->type == 'i') && arg->space == -1 && arg->zero == -1)
+	else if ((arg->type == 'd' || arg->type == 'i') && arg->space == -1 && arg->zero == -1)
 		str[0] = ' ';
-	else if ((arg->type == 'd' || list->type == 'i') && arg->space == -1)
+	else if ((arg->type == 'd' || arg->type == 'i') && arg->space == -1)
 		str[size] = ' ';
 	else if ((arg->type == 'x' || arg->type == 'X') && arg->zero == -1
 			&& arg->prefix == -1 && arg->data.ull != 0)

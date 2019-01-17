@@ -6,11 +6,7 @@
 #    By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 11:23:33 by frossiny          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2019/01/17 14:30:56 by frossiny         ###   ########.fr        #
-=======
-#    Updated: 2019/01/17 14:51:16 by vsaltel          ###   ########.fr        #
->>>>>>> ad17bd98827390db169c322129fbb0a044cd53d2
+#    Updated: 2019/01/17 18:20:10 by frossiny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +30,7 @@ FILES 	=	ft_printf.c				\
 			converters/integer.c	\
 			converters/pointer.c	\
 			converters/itoa_base.c	\
+			converters/unknown.c	\
 			ft_memset.c		\
 			ft_memalloc.c	\
 			ft_memdel.c		\

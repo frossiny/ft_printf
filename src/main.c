@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/17 15:12:26 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/17 17:50:14 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,12 @@ int main(int argc, char *argv[])
 	//ft_printf("b'% +0#-4.5hhs  %     9, b'foo'", NULL);
 	//printf("\n");
 	//printf("b'% +0#-4.5hhs  %     9, b'foo'", NULL);
+;
 
-	ft_printf("%03.2d", 1);
+	int r = ft_printf("%", 4294967295);
 	printf("\n");
-	printf("%03.2d", 1);
+	int r2 = printf("%", 4294967295);
 	printf("\n");
+
+	printf("Return Values: %d/%d\n", r, r2);
 }

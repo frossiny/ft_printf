@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   converter.c                                        :+:      :+:    :+:   */
+/*   unknown.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/07 14:33:18 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/17 17:37:56 by frossiny         ###   ########.fr       */
+/*   Created: 2019/01/17 16:37:25 by frossiny          #+#    #+#             */
+/*   Updated: 2019/01/17 17:51:29 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "converter.h"
 
-void	convert(t_arg *arg)
+void	handle_unknown(t_arg *arg)
 {
-	int		i;
+	char	*str;
+	size_t	len;
 
-	i = 0;
-	if (is_type(arg->type))
-		while (g_convlst[i].dtype)
-		{
-			if (ft_strchr(g_convlst[i].dtype, arg->type))
-			{
-				g_convlst[i].func(arg);
-				return ;
-			}
-			i++;
-		}
-	handle_unknown(arg);
+	if (arg->type == '\0')
+	{
+		arg->str = ft_strdup("");
+		return ;
+	}
+	len = arg->width ? arg->width + 1 : 2;
+	str = ft_strnew(len);
+	if (!str)
+		str = ft_strdup("");
+	else
+	{
+		ft_memset(str, arg->zero ? '0' : ' ', len - 1);
+		*str = arg->type;
+		str[len] = '\0';
+		if (!arg->left)
+			ft_strrev(str);
+	}
+	arg->str = str;
 }

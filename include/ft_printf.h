@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:47:37 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/17 15:16:00 by vsaltel          ###   ########.fr       */
+/*   Updated: 2019/01/17 16:43:21 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include "libft.h"
+
+#include <stdio.h>
 
 # define BUFF_SIZE	512
 
@@ -78,5 +80,6 @@ void						handle_char(t_arg *arg);
 void						handle_str(t_arg *arg);
 void						handle_ptr(t_arg *arg);
 void						handle_modulo(t_arg *arg);
+void						handle_unknown(t_arg *arg);
 
 #endif

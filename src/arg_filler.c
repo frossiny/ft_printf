@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 14:50:59 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/17 15:44:41 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/17 17:35:54 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	fill_decimal(t_arg *alst, va_list *args)
 
 void	fill_arg(t_arg *alst, va_list *args)
 {
-	if (!alst || !args || alst->type == '\0')
+	if (!alst || !args)
 		return ;
 	if (ft_strchr("bdiouxX", alst->type) != NULL)
 		fill_decimal(alst, args);
