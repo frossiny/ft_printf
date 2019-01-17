@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:51:59 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/15 17:11:32 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/17 14:27:45 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	del_list(t_arg **alst)
 	while (*alst)
 	{
 		next = (*alst)->next;
-		free((*alst)->str);
+		if ((*alst)->type)
+			free((*alst)->str);
 		free(*alst);
 		*alst = next;
 	}

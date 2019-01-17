@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/15 15:03:40 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/17 15:12:26 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
 {
 	int			test = 42;
 	long long	llt = 9999999999999999;
-	char		str[] = "Bonjour";
-	double		health = 0x7FF0000000000000;
+	char		str[] = "Bonjour\0";
+	double		health = 10.03;
 	union
 	{
 		double d;
@@ -41,23 +41,19 @@ int main(int argc, char *argv[])
 		ft_printf(argv[1], str, c, test, -test / 2);
 	ft_putchar('\n');
 	printf(argv[1], str, c, test, -test / 2);*/
-	int r = ft_printf("M: |%-20s| = |%f|\n", str, un.d);
-	int r2 = printf("O: |%-20s| = |%f|\n", str, un.d);
+	//int r = ft_printf("M: |%5.2f| = |%03.2d| %         mdr\n", health, test);
+	//int r2 = printf("O: |%5.2f| = |%03.2d| %         mdr\n", health, test);
 
-	printf("Count: %d = %d\n", r, r2);
+	//printf("Count: %d = %d\n", r, r2);
 
-	ft_printf("%.2s is a string\n", "this");
-	//ft_putchar('\n');
-	printf("%.2s is a string\n", "this");
+	//printf("%lc", (wint_t)536);
 
-	ft_putchar('\n');
+	//ft_printf("b'% +0#-4.5hhs  %     9, b'foo'", NULL);
+	//printf("\n");
+	//printf("b'% +0#-4.5hhs  %     9, b'foo'", NULL);
 
-	ft_printf("%.0s is a string\n", "this");
-//	ft_putchar('\n');
-	printf("%.0s is a string\n", "this");
-
-	ft_putchar('\n');
-	ft_putchar('\n');
-	ft_printf("|%5.2s is a string|", "this");
-	
+	ft_printf("%03.2d", 1);
+	printf("\n");
+	printf("%03.2d", 1);
+	printf("\n");
 }
