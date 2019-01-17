@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:22:56 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/15 15:19:34 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 16:40:36 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ void	handle_char(t_arg *arg)
 	int		i;
 
 	i = 0;
-	if (str = ft_strnew(arg->width + 1))
+	if ((str = ft_strnew(arg->width + 1)))
 	{
-		ft_memset(str, ' ', arg->width - 1);
-		ft_strncat(str, &arg->data.c, 1);
-		str[ft_strlen(str)] = '\0';
+		while (i < arg->width - 1)
+			str[i++] = ' ';
+		str[i++] = (unsigned char)arg->data.c;
+		str[i] = '\0';
 		if (arg->left)
 			ft_strrev(str);
 	}
@@ -64,10 +65,7 @@ void	handle_str(t_arg *arg)
 
 	str = (char *)arg->data.ptr;
 	if (!str)
-	{
-		arg->str = ft_strdup("(null)");
-		return ;
-	}
+		str = ft_strdup("(null)");
 	len = ft_strlen(str);
 	if (arg->precision > -1 && len > arg->precision)
 		len = arg->precision;

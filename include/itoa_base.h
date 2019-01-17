@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   converter.h                                        :+:      :+:    :+:   */
+/*   itoa_base.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsaltel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/07 16:31:09 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/15 17:01:43 by frossiny         ###   ########.fr       */
+/*   Created: 2019/01/16 14:17:25 by vsaltel           #+#    #+#             */
+/*   Updated: 2019/01/16 17:39:29 by vsaltel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,20 @@
 
 # include "ft_printf.h"
 
-typedef struct	s_converter
+typedef struct	s_type
 {
-	char		*dtype;
+	t_arg		*arg;
 	void		(*func)(t_arg *arg);
-}				t_conv;
+}				t_type;
 
-t_conv			g_convlst[] =
+t_type			g_typelst[] =
 {
-	{"bdiouxX", &itoa_base},
-	{"f", &handle_float},
-	{"cC", &handle_char},
-	{"s", &handle_str},
-	{"p", &handle_ptr},
-	{"%", &handle_modulo},
+	{"h", & },		//short
+	{"", & },		//int
+	{"l", & },		//long
+	{"llL", & },	//long long
 	{NULL, NULL}
 };
+
 
 #endif
