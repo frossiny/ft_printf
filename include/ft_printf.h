@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:47:37 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/15 16:17:43 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/15 14:38:03 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct				s_arg
 	int						left : 1;
 	int						space : 1;
 	int						positive : 1;
+	int						has_precision : 1;
 	int						precision;
 	int						width;
 	t_asize					size;
@@ -50,7 +51,7 @@ typedef struct				s_arg
 		unsigned long long	ull;
 		double				d;
 		long double			ld;
-		int					c;
+		unsigned char		c;
 		void				*ptr;
 	}						data;
 	struct s_arg			*next;

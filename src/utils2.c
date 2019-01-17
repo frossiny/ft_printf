@@ -6,7 +6,7 @@
 /*   By: vsaltel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 16:28:21 by vsaltel           #+#    #+#             */
-/*   Updated: 2018/12/19 16:32:46 by vsaltel          ###   ########.fr       */
+/*   Updated: 2019/01/17 14:59:53 by vsaltel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,31 @@ int		size_base(char c)
 	if (c == 'x' || c == 'X')
 		return (16);
 	return (0);
+}
+
+char	*create_base(unsigned int base, char maj)
+{
+	char	*str;
+	int		x;
+	char	c;
+
+	if (base < 2)
+		return (NULL);
+	if (!(str = (char *)malloc(sizeof(char) * base + 1)))
+		return (NULL);
+	x = 0;
+	c = '0';
+	while (base > 0)
+	{
+		str[x] = c;
+		c++;
+		if (c == ':' && maj == 'X')
+			c = 'A';
+		else if (c == ':')
+			c = 'a';
+		x++;
+		base--;
+	}
+	str[x] = '\0';
+	return (str);
 }

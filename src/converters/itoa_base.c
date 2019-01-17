@@ -6,71 +6,45 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:31:37 by vsaltel           #+#    #+#             */
-/*   Updated: 2019/01/15 17:27:33 by vsaltel          ###   ########.fr       */
+/*   Updated: 2019/01/17 14:59:51 by vsaltel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*create_base(unsigned int base, char maj)
+int		size_str(t_arg *list, unsigned int base, unsigned int *size)
 {
-	char	*str;
-	int		x;
-	char	c;
+	unsigned long long 	value2;
 
-	if (base < 2)
-		return (NULL);
-	if (!(str = (char *)malloc(sizeof(char) * base + 1)))
-		return (NULL);
-	x = 0;
-	c = '0';
-	while (base > 0)
-	{
-		str[x] = c;
-		c++;
-		if (c == ':' && maj == 'X')
-			c = 'A';
-		else if (c == ':')
-			c = 'a';
-		x++;
-		base--;
-	}
-	str[x] = '\0';
-	return (str);
-}
-
-int		size_str(t_arg *list, unsigned long long value2, unsigned int base)
-{
-	unsigned int		size;
-
-	size = 0;
-	if (list->data.ull == 0)
-		size++;
+	value2 = list->data.ull;
+	*size = 0;
+	if (list->data.ull == 0 && list->precision != 0)
+		(*size)++;
 	if (list->type == 'd')
 		while (list->data.ll != 0)
 		{
 			list->data.ll = list->data.ll / base;
-			size++;
+			(*size)++;
 		}
 	while (list->data.ull > 0)
 	{
 		list->data.ull = list->data.ull / base;
-		size++;
+		(*size)++;
 	}
 	list->data.ull = value2;
-	if (list->precision > size && list->precision != -1)
-		size = list->precision;
+	if (list->precision > *size && list->precision != -1)
+		*size = list->precision;
 	if ((list->positive == -1 || list->data.ll < 0 || list->space == -1)
 			&& list->type == 'd')
-		size++;
+		(*size)++;
 	if (list->prefix == -1 && list->type == 'o')
-		size++;
-	else if (list->prefix == -1 && (list->type == 'x' || list->type == 'X'))
-		size = size + 2;
-	return (size);
+		(*size)++;
+	else if (list->prefix == -1 && list->data.ull != 0 && (list->type == 'x' || list->type == 'X'))
+		*size = *size + 2;
+	return (*size);
 }
 
-char	*fill_str(t_arg *list, char *str, unsigned int base, unsigned int *size)
+char	*fill_str(t_arg *list, unsigned int base, unsigned int *size)
 {
 	char			*base_str;
 	int				nb;
@@ -84,7 +58,7 @@ char	*fill_str(t_arg *list, char *str, unsigned int base, unsigned int *size)
 			list->data.ll = -list->data.ll;
 		while (list->data.ll > 0)
 		{
-			str[(*size)--] = base_str[list->data.ll % base];
+			list->str[(*size)--] = base_str[list->data.ll % base];
 			list->data.ll = list->data.ll / base;
 			nb++;
 		}
@@ -92,14 +66,14 @@ char	*fill_str(t_arg *list, char *str, unsigned int base, unsigned int *size)
 	else
 		while (list->data.ull > 0)
 		{
-			str[(*size)--] = base_str[list->data.ull % base];
+			list->str[(*size)--] = base_str[list->data.ull % base];
 			list->data.ull = list->data.ull / base;
 			nb++;
 		}
 	while (nb++ < list->precision && list->precision != -1)
-		str[(*size)--] = '0';
+		list->str[(*size)--] = '0';
 	free(base_str);
-	return (str);
+	return (list->str);
 }
 
 char	*fill_option(t_arg *arg, char *str, int size)
@@ -117,14 +91,15 @@ char	*fill_option(t_arg *arg, char *str, int size)
 	else if (arg->type == 'd' && arg->space == -1)
 		str[size] = ' ';
 	else if ((arg->type == 'x' || arg->type == 'X') && arg->zero == -1
-			&& arg->prefix == -1)
+			&& arg->prefix == -1 && arg->data.ull != 0)
 	{
 		str[1] = 'x';
 		if (arg->type == 'X')
 			str[1] = 'X';
 		str[0] = '0';
 	}
-	else if ((arg->type == 'x' || arg->type == 'X') && arg->prefix == -1)
+	else if ((arg->type == 'x' || arg->type == 'X') && arg->prefix == -1
+			&& arg->data.ull != 0)
 	{
 		str[size] = 'x';
 		if (arg->type == 'X')
@@ -138,26 +113,24 @@ char	*fill_option(t_arg *arg, char *str, int size)
 
 void	itoa_base(t_arg *arg)
 {
-	char				*str;
 	unsigned long long	value2;
 	unsigned int		size;
 	unsigned int		base;
 
 	base = size_base(arg->type);
 	value2 = arg->data.ull;
-	size = size_str(arg, value2, base);
+	size = size_str(arg, base, &size);
 	if (arg->width > size)
 		size = arg->width;
-	if (!(str = (char *)malloc(sizeof(char) * size + 1)))
+	if (!(arg->str = (char *)malloc(sizeof(char) * size + 1)))
 		return ;
-	ft_memset(str, (arg->zero == -1 && arg->left == 0) ? '0' : ' ', size);
-	str[size--] = '\0';
+	ft_memset(arg->str, (arg->zero == -1 && arg->left == 0) ? '0' : ' ', size);
+	arg->str[size--] = '\0';
 	if (arg->left == -1)
-		size = size_str(arg, value2, base) - 1;
-	if (arg->data.ull == 0)
-		str[size--] = '0';
-	str = fill_str(arg, str, base, &size);
+		size = size_str(arg, base, &size) - 1;
+	if (arg->data.ull == 0 && arg->precision != 0)
+		arg->str[size--] = '0';
+	arg->str = fill_str(arg, base, &size);
 	arg->data.ull = value2;
-	str = fill_option(arg, str, size);
-	arg->str = str;
+	arg->str = fill_option(arg, arg->str, size);
 }
