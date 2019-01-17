@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/17 15:28:00 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/17 16:02:49 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	parse_flags(char *format, size_t i, t_arg *arg)
 			arg->prefix = 1;
 		else if (format[i] == ' ')
 			arg->space = 1;
-		else if (format[i] == '0')
+		else if (format[i] == '0' && ((arg->type != 'd' && arg->type != 'i') || arg->precision == -1))
 			arg->zero = 1;
 		i++;
 	}
@@ -124,12 +124,32 @@ void	parse_args(char *format, t_arg **alst, va_list *args)
 		return ;
 	i = current->end + 1;
 	fill_arg(current, args);
+	/*printf("Index: %lu = %s\n", current->index, format + current->index);
+	printf("Type: %c\n", current->type);
+	printf("Left: %d\n", current->left & 1);
+	printf("Zero: %d\n", current->zero & 1);
+	printf("Positive: %d\n", current->positive & 1);
+	printf("Prefix: %d\n", current->prefix & 1);
+	printf("Space: %d\n", current->space & 1);
+	printf("Precision: %d\n", current->precision);
+	printf("Width: %d\n", current->width);
+	printf("Size: %d\n\n", (int)current->size);*/
 	while (format[i] != '\0')
 	{
 		current->next = parse_arg(format, i);
 		if (current->next == NULL)
 			return ;
 		current = current->next;
+		/*printf("Index: %lu = %s\n", current->index, format + current->index);
+		printf("Type: %c\n", current->type);
+		printf("Left: %d\n", current->left & 1);
+		printf("Zero: %d\n", current->zero & 1);
+		printf("Positive: %d\n", current->positive & 1);
+		printf("Prefix: %d\n", current->prefix & 1);
+		printf("Space: %d\n", current->space & 1);
+		printf("Precision: %d\n", current->precision);
+		printf("Width: %d\n", current->width);
+		printf("Size: %d\n\n", (int)current->size);*/
 		i = current->end + 1;
 		fill_arg(current, args);
 	}
