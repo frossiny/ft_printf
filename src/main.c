@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/18 16:09:03 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/18 17:24:02 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,4 +161,16 @@ int main(int argc, char *argv[])
 	ft_printf("%010zs\n", NULL);
 	printf("%010zs\n", NULL);
 
+	int i = 2147483647;
+	long l = 2147483647;
+	long long ll = 9223372036854775807;
+	intmax_t im = 9223372036854775807;
+
+	ft_printf("%ld\n", l);
+	ft_printf("%lld\n", ll);
+	ft_printf("%-10d % d %+d %010d %hhd\n", 3, 3, 3, 1, c);
+	ft_printf("%x %#X %S %s%s\n", 1000, 1000, L"ݗݜशব", "test", "test2");
+
+	ft_printf("% 0+-#10.5llo\n", 42);
+	printf("% 0+-#10.5llo\n", 42);
 }

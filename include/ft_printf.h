@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:47:37 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/17 16:43:21 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/18 17:01:24 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 
-# define BUFF_SIZE	512
+# define BUFF_SIZE	2048
 
 typedef enum				e_asize
 {

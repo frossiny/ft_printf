@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/18 16:08:48 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/18 17:17:46 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	parse_args(char *format, t_arg **alst, va_list *args)
 		return ;
 	i = current->end + 1;
 	fill_arg(current, args);
-	printf("Type: %c\n", current->type);
+	/*printf("Type: %c\n", current->type);
 	printf("Left: %d\n", current->left & 1);
 	printf("Zero: %d\n", current->zero & 1);
 	printf("Positive: %d\n", current->positive & 1);
@@ -132,7 +132,7 @@ void	parse_args(char *format, t_arg **alst, va_list *args)
 	printf("Space: %d\n", current->space & 1);
 	printf("Precision: %d\n", current->precision);
 	printf("Width: %d\n", current->width);
-	printf("Size: %d\n\n", (int)current->size);
+	printf("Size: %d\n\n", (int)current->size);*/
 	while (format[i] != '\0')
 	{
 		current->next = parse_arg(format, i);

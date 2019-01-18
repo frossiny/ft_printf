@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 15:31:37 by vsaltel           #+#    #+#             */
-/*   Updated: 2019/01/17 17:16:24 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/18 17:26:48 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,14 @@ int		size_str(t_arg *list, unsigned int base, unsigned int *size)
 	}
 	list->data.ull = value2;
 	if (list->precision > *size && list->precision != -1)
+	{
+		list->prefix = 0;
 		*size = list->precision;
+	}
 	if ((list->positive == -1 || list->data.ll < 0 || list->space == -1)
 			&& (list->type == 'd' || list->type == 'i'))
 		(*size)++;
-	if (list->prefix == -1 && list->type == 'o')
+	if (list->prefix == -1 && list->type == 'o' && list->data.ull)
 		(*size)++;
 	else if (list->prefix == -1 && list->data.ull != 0 && (list->type == 'x' || list->type == 'X'))
 		*size = *size + 2;
@@ -75,7 +78,10 @@ char	*fill_str(t_arg *list, unsigned int base, unsigned int *size)
 			nb++;
 		}
 	while (nb++ < list->precision && list->precision != -1)
+	{
+		list->prefix = 0;
 		list->str[(*size)--] = '0';
+	}
 	free(base_str);
 	return (list->str);
 }

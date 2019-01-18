@@ -6,12 +6,11 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:45:31 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/18 14:48:13 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/18 17:03:14 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "string.h"
 
 size_t	write_buf(char buf[], int *i)
 {
@@ -19,7 +18,7 @@ size_t	write_buf(char buf[], int *i)
 
 	c = *i;
 	write(1, buf, c);
-	ft_bzero(buf, BUFF_SIZE);
+	buf[0] = '\0';
 	*i = 0;
 	return (c);
 }
@@ -40,8 +39,7 @@ size_t	write_arg(char buf[], t_arg *arg, int start, size_t *count)
 	if (str_len >= BUFF_SIZE)
 	{
 		*count += write_buf(buf, &start);
-		write(1, arg->str, str_len);
-		*count += str_len;
+		*count += write(1, arg->str, str_len);
 		return (start);
 	}
 	if (start + ft_strlen(arg->str) >= BUFF_SIZE)
@@ -59,6 +57,7 @@ size_t	write_end(char buf[], char *format, int j, size_t c)
 	return (c + ft_strlen(format));
 }
 
+
 size_t	write_all(char *format, t_arg *alst)
 {
 	char	buf[BUFF_SIZE + 1];
@@ -69,13 +68,14 @@ size_t	write_all(char *format, t_arg *alst)
 	i = 0;
 	j = 0;
 	c = 0;
-	ft_bzero(buf, BUFF_SIZE + 1);
+	buf[0] = '\0';
 	while (format[i])
 	{
 		if (alst)
 		{
 			ft_strncat(buf, format + i, alst->index - i);
 			j += alst->index - i;
+			buf[j] = '\0';
 			j = write_arg(buf, alst, j, &c);
 			i = alst->end + 1;
 			alst = alst->next;
