@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:51:59 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/17 18:19:32 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/18 15:55:43 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		is_flag(char c)
 
 int		is_size(char c)
 {
-	return (c == 'h' || c == 'l');
+	return (c == 'h' || c == 'l' || c == 'z');
 }
 
 int		is_type(char c)

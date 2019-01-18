@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:22:56 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/17 13:55:41 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/18 16:09:28 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handle_modulo(t_arg *arg)
 	char	*str;
 	int		i;
 
-	str = ft_strnew(arg->width + 1);
+	str = ft_strnew(arg->width);
 	if (!str)
 		arg->str = ft_strdup("%");
 	else
@@ -41,7 +41,7 @@ void	handle_char(t_arg *arg)
 	int		i;
 
 	i = 0;
-	if ((str = ft_strnew(arg->width + 1)))
+	if ((str = ft_strnew(arg->width)))
 	{
 		while (i < arg->width - 1)
 			str[i++] = ' ';
@@ -55,6 +55,34 @@ void	handle_char(t_arg *arg)
 	arg->str = str;
 }
 
+void	handle_null_str(t_arg *arg)
+{
+	char	*new;
+	size_t	len;
+	int		i;
+	int		j;
+	char	nullstr[] = "(null)";
+
+	i = 0;
+	j = 0;
+	len = 6;
+	if (arg->precision > -1 && len > arg->precision)
+		len = arg->precision;
+	if ((new = ft_strnew((arg->width < len) ? arg->width : len)))
+	{
+		while (!arg->left && i + len < arg->width)
+			new[i++] = arg->zero ? '0' : ' ';
+		while (nullstr[j] && j < len)
+			new[i++] = nullstr[j++];
+		while (arg->left && i < arg->width)
+			new[i++] = arg->zero ? '0' : ' ';
+		new[i] = '\0';
+	}
+	else
+		new = ft_strdup("");
+	arg->str = new;
+}
+
 void	handle_str(t_arg *arg)
 {
 	char	*str;
@@ -65,20 +93,21 @@ void	handle_str(t_arg *arg)
 
 	str = (char *)arg->data.ptr;
 	if (!str)
-		str = ft_strdup("(null)");
+		return (handle_null_str(arg));
 	len = ft_strlen(str);
 	if (arg->precision > -1 && len > arg->precision)
 		len = arg->precision;
 	i = 0;
-	if ((new = ft_strnew((arg->width > len) ? arg->width + 1 : len)))
+	if ((new = ft_strnew((arg->width > len) ? arg->width : len)))
 	{
 		while (!arg->left && i + len < arg->width)
-			new[i++] = ' ';
+			new[i++] = arg->zero ? '0' : ' ';
 		j = 0;
 		while (str[j] && j < len)
 			new[i++] = str[j++];
 		while (arg->left && i < arg->width)
-			new[i++] = ' ';
+			new[i++] = arg->zero ? '0' : ' ';
+		new[i] = '\0';
 	}
 	else
 		new = ft_strdup("");

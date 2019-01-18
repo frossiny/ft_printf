@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:06:42 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/17 13:58:17 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/18 16:06:03 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int					handle_exceptions(t_arg *arg)
 {
+	char	buf[512];
 	int		sign;
+	int		i;
 
 	sign = (arg->data.ull & 0x8000000000000000) > 0;
 	if ((arg->data.ull & 0x7FFFFFFFFFFFFFFF) == 0x7FF0000000000000)
@@ -27,13 +29,20 @@ int					handle_exceptions(t_arg *arg)
 	}
 	else if (((arg->data.ull & 0x7FFFFFFFFFFFFFFF) >> 52) == 0x7FF)
 	{
-		arg->str = ft_strdup("nan");
+		i = 3;
+		ft_memcpy(buf, "nan", 4);
+		while (i < arg->width)
+			buf[i++] = ' ';
+		buf[i] = '\0';
+		if (!arg->left)
+			ft_strrev(buf);
+		arg->str = ft_strdup(buf);
 		return (1);
 	}
 	return (0);
 }
 
-unsigned long long	ft_round(double d, int precision)
+unsigned long long	ft_round(long double d, int precision)
 {
 	long double	ld;
 
@@ -66,41 +75,51 @@ long				numtoarg(char buf[], unsigned long long n, int d)
 
 void				pad(char buf[], int *i, t_arg *arg)
 {
+	if (arg->prefix && arg->precision == 0)
+		buf[(*i)++] = '.';
+	buf[*i] = '\0';
+	ft_strrev(buf);
+	while (*i < arg->width - (arg->positive || arg->space) && arg->zero)
+		buf[(*i)++] = '0';
+	if ((arg->positive || arg->space) && !(arg->data.ull & 0x8000000000000000))
+		buf[(*i)++] = arg->positive ? '+' : ' ';
+	buf[*i] = '\0';
+	ft_strrev(buf);
 	if (!arg->left)
 		ft_strrev(buf);
-	while (*i < arg->width)
-	{
+	while (*i < arg->width && !arg->zero)
 		buf[(*i)++] = ' ';
-	}
+	buf[*i] = '\0';
 	if (!arg->left)
 		ft_strrev(buf);
 }
 
 void				handle_float(t_arg *arg)
 {
-	char	buf[512];
-	int		i;
-	double	d;
+	char		buf[512];
+	int			i;
+	long double	d;
 
 	if (handle_exceptions(arg))
 		return ;
 	i = 0;
+	d = arg->data.ld;
 	if (arg->data.ull & 0x8000000000000000)
 	{
+		d *= -1;
 		buf[i++] = '-';
-		arg->data.d *= -1;
 	}
-	if (arg->data.d > 1)
-		i += numtoarg(buf + i, (long long)arg->data.d, 0);
+	if (d >= 1)
+		i += numtoarg(buf + i, ft_round(arg->precision == 0 ? d : (long long)d, 0), 0);
 	else
 		buf[i++] = '0';
 	if (arg->precision > 0)
 	{
 		buf[i++] = '.';
-		d = (arg->data.d - (long long)arg->data.d);
+		d = (d - (long long)d);
 		i += numtoarg(buf + i, ft_round(d, arg->precision), arg->precision);
 	}
-	pad(buf, &i, arg);
 	buf[i] = '\0';
+	pad(buf, &i, arg);
 	arg->str = ft_strdup(buf);
 }

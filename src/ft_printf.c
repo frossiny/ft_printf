@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:45:31 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/17 18:13:58 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/18 14:48:13 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int		ft_printf(char *format, ...)
 	t_arg	*alst;
 	size_t	ret;
 
+	if (format == NULL)
+		return (-1);
 	va_start(arg, format);
 	parse_args(format, &alst, &arg);
 	if (alst == NULL)
