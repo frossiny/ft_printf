@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:06:42 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/18 16:06:03 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/18 17:58:08 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ int					handle_exceptions(t_arg *arg)
 	sign = (arg->data.ull & 0x8000000000000000) > 0;
 	if ((arg->data.ull & 0x7FFFFFFFFFFFFFFF) == 0x7FF0000000000000)
 	{
-		if (sign)
-			arg->str = ft_strdup("-inf");
-		else
-			arg->str = ft_strdup("inf");
+		arg->str = ft_strdup(sign ? "-inf" : "inf");
 		return (1);
 	}
 	else if (((arg->data.ull & 0x7FFFFFFFFFFFFFFF) >> 52) == 0x7FF)
@@ -42,7 +39,7 @@ int					handle_exceptions(t_arg *arg)
 	return (0);
 }
 
-unsigned long long	ft_round(long double d, int precision)
+unsigned long long	fro(long double d, int precision)
 {
 	long double	ld;
 
@@ -105,19 +102,18 @@ void				handle_float(t_arg *arg)
 	i = 0;
 	d = arg->data.ld;
 	if (arg->data.ull & 0x8000000000000000)
-	{
 		d *= -1;
+	if (arg->data.ull & 0x8000000000000000)
 		buf[i++] = '-';
-	}
 	if (d >= 1)
-		i += numtoarg(buf + i, ft_round(arg->precision == 0 ? d : (long long)d, 0), 0);
+		i += numtoarg(buf + i, fro(!arg->precision ? d : (long long)d, 0), 0);
 	else
 		buf[i++] = '0';
 	if (arg->precision > 0)
 	{
 		buf[i++] = '.';
-		d = (d - (long long)d);
-		i += numtoarg(buf + i, ft_round(d, arg->precision), arg->precision);
+		i += numtoarg(buf + i,
+			fro((d - (long long)d), arg->precision), arg->precision);
 	}
 	buf[i] = '\0';
 	pad(buf, &i, arg);
