@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:59:32 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/21 17:32:08 by vsaltel          ###   ########.fr       */
+/*   Updated: 2019/01/21 17:49:03 by vsaltel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void		fill_str(t_arg *list, unsigned int *size)
 		list->str[(*size)--] = '0';
 }
 
-static char		*fill_option(t_arg *arg, char *str, int size)
+static void		fill_option(t_arg *arg, char *str, int size)
 {
 	if (arg->data.ll < 0 && arg->zero == -1)
 		str[0] = '-';
@@ -70,7 +70,6 @@ static char		*fill_option(t_arg *arg, char *str, int size)
 		str[0] = ' ';
 	else if (arg->space == -1)
 		str[size] = ' ';
-	return (str);
 }
 
 void			itoa_signed(t_arg *arg)
@@ -94,5 +93,5 @@ void			itoa_signed(t_arg *arg)
 	if (arg->data.ull == 0 && arg->precision != 0)
 		arg->str[size--] = '0';
 	fill_str(arg, &size);
-	arg->str = fill_option(arg, arg->str, size);
+	fill_option(arg, arg->str, size);
 }
