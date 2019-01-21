@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:22:56 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/18 16:09:28 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 14:07:25 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,22 @@ void	handle_modulo(t_arg *arg)
 
 void	handle_char(t_arg *arg)
 {
-	char	*str;
 	int		i;
 
 	i = 0;
-	if ((str = ft_strnew(arg->width)))
+	if ((arg->str = ft_strnew(arg->width)))
 	{
-		while (i < arg->width - 1)
-			str[i++] = ' ';
-		str[i++] = (unsigned char)arg->data.c;
-		str[i] = '\0';
+		if (!arg->left)
+			while (i < arg->width - 1)
+			arg->str[i++] = arg->zero ? '0' : ' ';
+		arg->str[i++] = (unsigned char)arg->data.c;
 		if (arg->left)
-			ft_strrev(str);
+			while (i < arg->width)
+				arg->str[i++] = arg->zero ? '0' : ' ';
+		arg->str[i] = '\0';
 	}
 	else
-		str = ft_strdup("");
-	arg->str = str;
+		arg->str = ft_strdup("");
 }
 
 void	handle_null_str(t_arg *arg)

@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:06:42 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/18 17:58:08 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 13:57:29 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,16 @@ int					handle_exceptions(t_arg *arg)
 	sign = (arg->data.ull & 0x8000000000000000) > 0;
 	if ((arg->data.ull & 0x7FFFFFFFFFFFFFFF) == 0x7FF0000000000000)
 	{
-		arg->str = ft_strdup(sign ? "-inf" : "inf");
+		if (arg->type == 'A')
+			arg->str = ft_strdup(sign ? "-INF" : "INF");
+		else
+			arg->str = ft_strdup(sign ? "-inf" : "inf");
 		return (1);
 	}
 	else if (((arg->data.ull & 0x7FFFFFFFFFFFFFFF) >> 52) == 0x7FF)
 	{
 		i = 3;
-		ft_memcpy(buf, "nan", 4);
+		ft_memcpy(buf, arg->type == 'f' ? "nan" : "NAN", 4);
 		while (i < arg->width)
 			buf[i++] = ' ';
 		buf[i] = '\0';

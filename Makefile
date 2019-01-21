@@ -6,7 +6,7 @@
 #    By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 11:23:33 by frossiny          #+#    #+#              #
-#    Updated: 2019/01/18 14:42:58 by frossiny         ###   ########.fr        #
+#    Updated: 2019/01/21 16:07:12 by frossiny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,18 +19,19 @@ LIBFT	=	libft
 SRCDIR	=	src
 INCDIR	=	include
 OBJDIR	=	objs
-FILES 	=	ft_printf.c				\
-			arg_parser.c			\
-			arg_filler.c			\
-			converter.c				\
-			utils.c					\
+FILES 	=	ft_printf.c					\
+			arg_parser.c				\
+			arg_filler.c				\
+			converter.c					\
+			utils.c						\
 			utils2.c					\
-			converters/char.c		\
-			converters/ftoa.c		\
-			converters/integer.c	\
-			converters/pointer.c	\
-			converters/itoa_base.c	\
-			converters/unknown.c	\
+			converters/char.c			\
+			converters/ftoa.c			\
+			converters/integer.c		\
+			converters/pointer.c		\
+			converters/itoa_signed.c	\
+			converters/itoa_unsigned.c	\
+			converters/unknown.c		\
 			ft_memset.c		\
 			ft_memalloc.c	\
 			ft_memdel.c		\

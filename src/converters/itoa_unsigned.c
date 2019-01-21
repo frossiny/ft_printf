@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   itoa_base_unsigned.c                               :+:      :+:    :+:   */
+/*   itoa_unsigned.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsaltel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 15:06:21 by vsaltel           #+#    #+#             */
-/*   Updated: 2019/01/21 15:08:15 by vsaltel          ###   ########.fr       */
+/*   Updated: 2019/01/21 16:14:12 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		size_str(t_arg *list, unsigned int base, unsigned int *size)
 	value2 = list->data.ull;
 	*size = 0;
 	
-	if (list->data.ull == 0 && list->precision != 0)
+	if ((list->data.ull == 0 && list->precision != 0) || (list->type == 'o' && list->prefix))
 		(*size)++;
 	while (list->data.ull > 0)
 	{
@@ -28,13 +28,8 @@ int		size_str(t_arg *list, unsigned int base, unsigned int *size)
 	}
 	list->data.ull = value2;
 	if (list->precision > *size && list->precision != -1)
-	{
-		list->prefix = 0;
 		*size = list->precision;
-	}
-	if (list->prefix == -1 && list->type == 'o' && list->data.ull)
-		(*size)++;
-	else if (list->prefix == -1 && list->data.ull != 0 && (list->type == 'x' || list->type == 'X'))
+	if (list->prefix == -1 && list->data.ull != 0 && (list->type == 'x' || list->type == 'X'))
 		*size = *size + 2;
 	return (*size);
 }
@@ -44,22 +39,22 @@ char	*fill_str(t_arg *list, unsigned int base, unsigned int *size)
 	char			*base_str;
 	int				nb;
 
+	if ((base_str = create_base(base, list->type)) == NULL)
+		return (NULL);
 	nb = 0;
 	if (list->data.ull == 0)
 		nb++;
-	if ((base_str = create_base(base, list->type)) == NULL)
-		return (NULL);
-	while (list->data.ull > 0)
-	{
-		list->str[(*size)--] = base_str[list->data.ull % base];
-		list->data.ull = list->data.ull / base;
-		nb++;
-	}
-	while (nb++ < list->precision && list->precision != -1)
-	{
-		list->prefix = 0;
+	if (list->data.ull == 0 && list->precision != 0)
 		list->str[(*size)--] = '0';
-	}
+	else
+		while (list->data.ull > 0)
+		{
+			list->str[(*size)--] = base_str[list->data.ull % base];
+			list->data.ull = list->data.ull / base;
+			nb++;
+		}
+	while (nb++ < list->precision && list->precision != -1)
+		list->str[(*size)--] = '0';
 	free(base_str);
 	return (list->str);
 }
@@ -87,7 +82,7 @@ char	*fill_option(t_arg *arg, char *str, int size)
 	return (str);
 }
 
-void	itoa_base_unsigned(t_arg *arg)
+void	itoa_unsigned(t_arg *arg)
 {
 	unsigned long long	value2;
 	unsigned int		size;
@@ -104,8 +99,6 @@ void	itoa_base_unsigned(t_arg *arg)
 	arg->str[size--] = '\0';
 	if (arg->left == -1)
 		size = size_str(arg, base, &size) - 1;
-	if (arg->data.ull == 0 && arg->precision != 0)
-		arg->str[size--] = '0';
 	arg->str = fill_str(arg, base, &size);
 	arg->data.ull = value2;
 	arg->str = fill_option(arg, arg->str, size);

@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/18 17:17:46 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 16:53:57 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	parse_flags(char *format, size_t i, t_arg *arg)
 	if (arg->left)
 		arg->zero = 0;
 }
-
 t_arg	*parse_arg(char *format, size_t i)
 {
 	t_arg	*new;
@@ -105,8 +104,9 @@ t_arg	*parse_arg(char *format, size_t i)
 		parse_type(format, i, new);
 		parse_size(format, i, new);
 		parse_flags(format, i, new);
-		if (new->type == 'f' && new->precision == -1)
+		if ((new->type == 'f' || new->type == 'F') && new->precision == -1)
 			new->precision = 6;
+
 	}
 	return (new);
 }
@@ -124,18 +124,10 @@ void	parse_args(char *format, t_arg **alst, va_list *args)
 		return ;
 	i = current->end + 1;
 	fill_arg(current, args);
-	/*printf("Type: %c\n", current->type);
-	printf("Left: %d\n", current->left & 1);
-	printf("Zero: %d\n", current->zero & 1);
-	printf("Positive: %d\n", current->positive & 1);
-	printf("Prefix: %d\n", current->prefix & 1);
-	printf("Space: %d\n", current->space & 1);
-	printf("Precision: %d\n", current->precision);
-	printf("Width: %d\n", current->width);
-	printf("Size: %d\n\n", (int)current->size);*/
 	while (format[i] != '\0')
 	{
 		current->next = parse_arg(format, i);
+
 		if (current->next == NULL)
 			return ;
 		current = current->next;

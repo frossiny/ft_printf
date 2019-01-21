@@ -6,11 +6,13 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:45:31 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/18 17:03:14 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 16:50:52 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+#include <time.h>
 
 size_t	write_buf(char buf[], int *i)
 {
@@ -32,8 +34,8 @@ size_t	write_arg(char buf[], t_arg *arg, int start, size_t *count)
 	str_len = ft_strlen(arg->str);
 	if (arg->type == 'c' && arg->data.c == 0)
 	{
-		*count += write_buf(buf, &start) + str_len + 1;
-		write(1, arg->str, str_len + 1);
+		*count += write_buf(buf, &start);
+		*count += write(1, arg->str, arg->width == 0 ? 1 : arg->width);
 		return (start);
 	}
 	if (str_len >= BUFF_SIZE)
@@ -92,14 +94,19 @@ int		ft_printf(char *format, ...)
 	va_list	arg;
 	t_arg	*alst;
 	size_t	ret;
+	clock_t start;
 
 	if (format == NULL)
 		return (-1);
 	va_start(arg, format);
+	start = clock();
 	parse_args(format, &alst, &arg);
+	printf("Parsing: %f\n", (double)(clock() - start) / CLOCKS_PER_SEC);
+	start = clock();
 	if (alst == NULL)
 		return (write(1, format, ft_strlen(format)));
 	ret = write_all(format, alst);
+	printf("Write: %f\n", (double)(clock() - start) / CLOCKS_PER_SEC);
 	va_end(arg);
 	del_list(&alst);
 	return (ret);

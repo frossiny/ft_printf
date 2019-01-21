@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:47:37 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/18 17:01:24 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 15:48:08 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ size_t						ft_strcat_c(char *s1, const char *s2, int j);
 
 int							size_base(char c);
 char						*create_base(unsigned int base, char maj);
-void						itoa_base(t_arg *arg);
+void						itoa_signed(t_arg *arg);
+void						itoa_unsigned(t_arg *arg);
 void						handle_float(t_arg *arg);
 void						handle_char(t_arg *arg);
 void						handle_str(t_arg *arg);

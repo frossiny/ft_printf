@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:31:09 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/15 17:01:43 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 15:48:00 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ typedef struct	s_converter
 
 t_conv			g_convlst[] =
 {
-	{"bdiouxX", &itoa_base},
-	{"f", &handle_float},
+	{"di", &itoa_signed},
+	{"bouxX", &itoa_unsigned},
+	{"fF", &handle_float},
 	{"cC", &handle_char},
 	{"s", &handle_str},
 	{"p", &handle_ptr},

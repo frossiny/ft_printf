@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:58:19 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/18 17:24:02 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 16:49:58 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 		ft_printf(argv[1], str, c, test, -test / 2);
 	ft_putchar('\n');
 	printf(argv[1], str, c, test, -test / 2);*/
-	//int r = ft_printf("M: |%5.2f| = |%03.2d| %         mdr\n", health, test);
+	int r = ft_printf("M: |%5.2f| = |%03.2d| %         mdr\n", health, test);
 	//int r2 = printf("O: |%5.2f| = |%03.2d| %         mdr\n", health, test);
 
 	//printf("Count: %d = %d\n", r, r2);
@@ -133,44 +133,13 @@ int main(int argc, char *argv[])
 		printf( "size + minus + plus + prec:%-+5.3f|\n", nb);
     ft_printf("size + minus + plus + prec + hash:%-#+5.0f|\n", nb);
 		printf( "size + minus + plus + prec + hash:%-#+5.0f|\n", nb);*/
-
-
-	float		nb;
-	nb = 0;
-	ft_printf("null prec : %+.0f|\n", nb);
-	printf("null prec : %+.0f|\n", nb);
-	nb = 12.5;
-	ft_printf("null prec : %+.0f|\n", nb);
-	printf("null prec : %+.0f|\n", nb);
-	nb = -25632.2541;
-	ft_printf("null prec : %+.0f|\n", nb);
-	printf("null prec : %+.0f|\n", nb);
-	nb = -1.0123;
-	ft_printf("null prec : %+.0f|\n", nb);
-	printf("null prec : %+.0f|\n", nb);
-	nb = 12354.569874;
-	ft_printf("null prec : %+.0f|\n", nb);
-	printf("null prec : %+.0f|\n", nb);
-	
-
-	ft_printf(NULL, 123, 'A', 1235.123);
-	//printf(NULL, 123, 'A', 1235.123);
-
-	ft_printf("{%.5s}\n", NULL);
-	printf("{%.5s}\n", NULL);
-	ft_printf("%010zs\n", NULL);
-	printf("%010zs\n", NULL);
-
+/*
 	int i = 2147483647;
 	long l = 2147483647;
-	long long ll = 9223372036854775807;
+	long long ll = -9223372036854775807 -1;
 	intmax_t im = 9223372036854775807;
 
-	ft_printf("%ld\n", l);
+	ft_printf("%o\n", 0);
 	ft_printf("%lld\n", ll);
-	ft_printf("%-10d % d %+d %010d %hhd\n", 3, 3, 3, 1, c);
-	ft_printf("%x %#X %S %s%s\n", 1000, 1000, L"ݗݜशব", "test", "test2");
-
-	ft_printf("% 0+-#10.5llo\n", 42);
-	printf("% 0+-#10.5llo\n", 42);
+	*/
 }
