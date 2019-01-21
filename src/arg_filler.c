@@ -6,13 +6,13 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 14:50:59 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/21 14:22:43 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 17:34:56 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	fill_decimal(t_arg *alst, va_list *args)
+static void	fill_decimal(t_arg *alst, va_list *args)
 {
 	if (alst->type == 'd' || alst->type == 'i')
 	{
@@ -38,7 +38,7 @@ void	fill_decimal(t_arg *alst, va_list *args)
 		alst->data.ll = (unsigned char)alst->data.ll;
 }
 
-void	fill_arg(t_arg *alst, va_list *args)
+void		fill_arg(t_arg *alst, va_list *args)
 {
 	if (!alst || !args)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/21 16:53:57 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 17:36:58 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,15 @@ void	parse_flags(char *format, size_t i, t_arg *arg)
 			arg->prefix = 1;
 		else if (format[i] == ' ')
 			arg->space = 1;
-		else if (format[i] == '0' && ((arg->type != 'd' && arg->type != 'i') || arg->precision == -1))
+		else if (format[i] == '0' &&
+			((arg->type != 'd' && arg->type != 'i') || arg->precision == -1))
 			arg->zero = 1;
 		i++;
 	}
 	if (arg->left)
 		arg->zero = 0;
 }
+
 t_arg	*parse_arg(char *format, size_t i)
 {
 	t_arg	*new;
@@ -106,7 +108,6 @@ t_arg	*parse_arg(char *format, size_t i)
 		parse_flags(format, i, new);
 		if ((new->type == 'f' || new->type == 'F') && new->precision == -1)
 			new->precision = 6;
-
 	}
 	return (new);
 }
@@ -127,7 +128,6 @@ void	parse_args(char *format, t_arg **alst, va_list *args)
 	while (format[i] != '\0')
 	{
 		current->next = parse_arg(format, i);
-
 		if (current->next == NULL)
 			return ;
 		current = current->next;

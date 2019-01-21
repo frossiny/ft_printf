@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:22:56 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/21 14:07:25 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 17:31:09 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	handle_char(t_arg *arg)
 	{
 		if (!arg->left)
 			while (i < arg->width - 1)
-			arg->str[i++] = arg->zero ? '0' : ' ';
+				arg->str[i++] = arg->zero ? '0' : ' ';
 		arg->str[i++] = (unsigned char)arg->data.c;
 		if (arg->left)
 			while (i < arg->width)
@@ -57,11 +57,11 @@ void	handle_char(t_arg *arg)
 
 void	handle_null_str(t_arg *arg)
 {
-	char	*new;
-	size_t	len;
-	int		i;
-	int		j;
-	char	nullstr[] = "(null)";
+	char		*new;
+	size_t		len;
+	int			i;
+	int			j;
+	const char	nullstr[] = "(null)";
 
 	i = 0;
 	j = 0;
@@ -89,7 +89,6 @@ void	handle_str(t_arg *arg)
 	char	*new;
 	size_t	len;
 	int		i;
-	int		j;
 
 	str = (char *)arg->data.ptr;
 	if (!str)
@@ -102,9 +101,8 @@ void	handle_str(t_arg *arg)
 	{
 		while (!arg->left && i + len < arg->width)
 			new[i++] = arg->zero ? '0' : ' ';
-		j = 0;
-		while (str[j] && j < len)
-			new[i++] = str[j++];
+		ft_memcpy(new + i, str, len);
+		i += len;
 		while (arg->left && i < arg->width)
 			new[i++] = arg->zero ? '0' : ' ';
 		new[i] = '\0';

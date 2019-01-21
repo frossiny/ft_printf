@@ -6,15 +6,14 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:06:42 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/21 13:57:29 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 17:33:27 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int					handle_exceptions(t_arg *arg)
+int					handle_exceptions(t_arg *arg, char buf[])
 {
-	char	buf[512];
 	int		sign;
 	int		i;
 
@@ -100,7 +99,7 @@ void				handle_float(t_arg *arg)
 	int			i;
 	long double	d;
 
-	if (handle_exceptions(arg))
+	if (handle_exceptions(arg, buf))
 		return ;
 	i = 0;
 	d = arg->data.ld;

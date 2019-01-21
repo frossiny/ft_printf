@@ -6,13 +6,11 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:45:31 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/21 16:50:52 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 17:35:46 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-#include <time.h>
 
 size_t	write_buf(char buf[], int *i)
 {
@@ -59,7 +57,6 @@ size_t	write_end(char buf[], char *format, int j, size_t c)
 	return (c + ft_strlen(format));
 }
 
-
 size_t	write_all(char *format, t_arg *alst)
 {
 	char	buf[BUFF_SIZE + 1];
@@ -94,19 +91,14 @@ int		ft_printf(char *format, ...)
 	va_list	arg;
 	t_arg	*alst;
 	size_t	ret;
-	clock_t start;
 
 	if (format == NULL)
 		return (-1);
 	va_start(arg, format);
-	start = clock();
 	parse_args(format, &alst, &arg);
-	printf("Parsing: %f\n", (double)(clock() - start) / CLOCKS_PER_SEC);
-	start = clock();
 	if (alst == NULL)
 		return (write(1, format, ft_strlen(format)));
 	ret = write_all(format, alst);
-	printf("Write: %f\n", (double)(clock() - start) / CLOCKS_PER_SEC);
 	va_end(arg);
 	del_list(&alst);
 	return (ret);
