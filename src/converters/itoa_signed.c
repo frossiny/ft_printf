@@ -6,13 +6,13 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:59:32 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/21 17:32:28 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 17:32:08 by vsaltel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	size_str(t_arg *list)
+static int		size_str(t_arg *list)
 {
 	long long	value;
 	int			size;
@@ -35,7 +35,7 @@ static int	size_str(t_arg *list)
 	return (size);
 }
 
-static void	fill_str(t_arg *list, unsigned int *size)
+static void		fill_str(t_arg *list, unsigned int *size)
 {
 	int			nb;
 	long long	value;
@@ -56,7 +56,7 @@ static void	fill_str(t_arg *list, unsigned int *size)
 		list->str[(*size)--] = '0';
 }
 
-static char	*fill_option(t_arg *arg, char *str, int size)
+static char		*fill_option(t_arg *arg, char *str, int size)
 {
 	if (arg->data.ll < 0 && arg->zero == -1)
 		str[0] = '-';
@@ -73,7 +73,7 @@ static char	*fill_option(t_arg *arg, char *str, int size)
 	return (str);
 }
 
-void		itoa_signed(t_arg *arg)
+void			itoa_signed(t_arg *arg)
 {
 	unsigned int		size;
 

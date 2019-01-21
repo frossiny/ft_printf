@@ -6,20 +6,20 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 15:06:21 by vsaltel           #+#    #+#             */
-/*   Updated: 2019/01/21 16:14:12 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/21 17:35:18 by vsaltel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		size_str(t_arg *list, unsigned int base, unsigned int *size)
+static int	size_str(t_arg *list, unsigned int base, unsigned int *size)
 {
-	unsigned long long 	value2;
+	unsigned long long	value2;
 
 	value2 = list->data.ull;
 	*size = 0;
-	
-	if ((list->data.ull == 0 && list->precision != 0) || (list->type == 'o' && list->prefix))
+	if ((list->data.ull == 0 && list->precision != 0) ||
+			(list->type == 'o' && list->prefix))
 		(*size)++;
 	while (list->data.ull > 0)
 	{
@@ -29,18 +29,19 @@ int		size_str(t_arg *list, unsigned int base, unsigned int *size)
 	list->data.ull = value2;
 	if (list->precision > *size && list->precision != -1)
 		*size = list->precision;
-	if (list->prefix == -1 && list->data.ull != 0 && (list->type == 'x' || list->type == 'X'))
+	if (list->prefix == -1 && list->data.ull != 0 &&
+			(list->type == 'x' || list->type == 'X'))
 		*size = *size + 2;
 	return (*size);
 }
 
-char	*fill_str(t_arg *list, unsigned int base, unsigned int *size)
+static void	fill_str(t_arg *list, unsigned int base, unsigned int *size)
 {
 	char			*base_str;
 	int				nb;
 
 	if ((base_str = create_base(base, list->type)) == NULL)
-		return (NULL);
+		return ;
 	nb = 0;
 	if (list->data.ull == 0)
 		nb++;
@@ -56,10 +57,9 @@ char	*fill_str(t_arg *list, unsigned int base, unsigned int *size)
 	while (nb++ < list->precision && list->precision != -1)
 		list->str[(*size)--] = '0';
 	free(base_str);
-	return (list->str);
 }
 
-char	*fill_option(t_arg *arg, char *str, int size)
+static void	fill_option(t_arg *arg, char *str, int size)
 {
 	if ((arg->type == 'x' || arg->type == 'X') && arg->zero == -1
 			&& arg->prefix == -1 && arg->data.ull != 0)
@@ -79,10 +79,9 @@ char	*fill_option(t_arg *arg, char *str, int size)
 	}
 	else if (arg->type == 'o' && arg->prefix == -1)
 		str[size] = '0';
-	return (str);
 }
 
-void	itoa_unsigned(t_arg *arg)
+void		itoa_unsigned(t_arg *arg)
 {
 	unsigned long long	value2;
 	unsigned int		size;
@@ -99,7 +98,7 @@ void	itoa_unsigned(t_arg *arg)
 	arg->str[size--] = '\0';
 	if (arg->left == -1)
 		size = size_str(arg, base, &size) - 1;
-	arg->str = fill_str(arg, base, &size);
+	fill_str(arg, base, &size);
 	arg->data.ull = value2;
-	arg->str = fill_option(arg, arg->str, size);
+	fill_option(arg, arg->str, size);
 }
