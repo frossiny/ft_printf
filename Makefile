@@ -6,16 +6,14 @@
 #    By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/16 11:23:33 by frossiny          #+#    #+#              #
-#    Updated: 2019/01/21 16:07:12 by frossiny         ###   ########.fr        #
+#    Updated: 2019/01/30 11:27:35 by frossiny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC		=	gcc
-#CFLAGS	+=	-Wall -Werror -Wextra
-#CFLAGS = -g -fsanitize=address
+CFLAGS	+=	-Wall -Werror -Wextra
 
 NAME 	=	libftprintf.a
-LIBFT	=	libft
 SRCDIR	=	src
 INCDIR	=	include
 OBJDIR	=	objs
@@ -121,11 +119,9 @@ _WHITE=\x1b[37m
 
 .PHONY: all clean fclean re $(LIBFT)
 
-$(NAME): $(OBJS) src/main.c
-	#@$(MAKE) -q -C $(LIBFT) || $(MAKE) -C $(LIBFT)
+$(NAME): $(OBJS)
 	@echo "${_BLUE}${_BOLD}[Linking] $(NAME)${_END}"
 	@ar rc $(NAME) $(OBJS)
-	$(CC) $(CFLAGS) -o ft_printf -L . -lftprintf -I./include src/main.c
 	@echo "${_GREEN}${_BOLD}$(NAME) done.${_END}"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
@@ -137,13 +133,11 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 all: $(NAME)
 
 clean:
-	#@make -C $(LIBFT) clean
-	@echo "${_RED}${_BOLD}Cleaning obj files...${_END}"
+	@echo "${_RED}${_BOLD}Removing obj files...${_END}"
 	@rm -f $(OBJS)
 
 fclean: clean
-	#@make -C $(LIBFT) fclean
-	@echo "${_RED}${_BOLD}Cleaning project...${_END}"
+	@echo "${_RED}${_BOLD}Removing $(NAME)...${_END}"
 	@rm -f $(NAME)
 
 re: fclean $(NAME)

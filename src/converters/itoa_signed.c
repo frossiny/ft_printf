@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:59:32 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/21 17:49:03 by vsaltel          ###   ########.fr       */
+/*   Updated: 2019/01/30 10:09:49 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void			itoa_signed(t_arg *arg)
 		return ;
 	}
 	size = size_str(arg);
-	if (arg->width > size)
+	if ((unsigned int)arg->width > size)
 		size = arg->width;
 	if (!(arg->str = (char *)malloc(sizeof(char) * size + 1)))
 		return ;

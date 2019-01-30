@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:22:56 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/21 17:31:09 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/30 10:09:08 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,22 @@ void	handle_null_str(t_arg *arg)
 {
 	char		*new;
 	size_t		len;
-	int			i;
-	int			j;
+	size_t		i;
+	size_t		j;
 	const char	nullstr[] = "(null)";
 
 	i = 0;
 	j = 0;
 	len = 6;
-	if (arg->precision > -1 && len > arg->precision)
+	if (arg->precision > -1 && len > (size_t)arg->precision)
 		len = arg->precision;
-	if ((new = ft_strnew((arg->width < len) ? arg->width : len)))
+	if ((new = ft_strnew(((size_t)arg->width < len) ? arg->width : len)))
 	{
-		while (!arg->left && i + len < arg->width)
+		while (!arg->left && i + len < (size_t)arg->width)
 			new[i++] = arg->zero ? '0' : ' ';
 		while (nullstr[j] && j < len)
 			new[i++] = nullstr[j++];
-		while (arg->left && i < arg->width)
+		while (arg->left && i < (size_t)arg->width)
 			new[i++] = arg->zero ? '0' : ' ';
 		new[i] = '\0';
 	}
@@ -94,12 +94,12 @@ void	handle_str(t_arg *arg)
 	if (!str)
 		return (handle_null_str(arg));
 	len = ft_strlen(str);
-	if (arg->precision > -1 && len > arg->precision)
+	if (arg->precision > -1 && len > (size_t)arg->precision)
 		len = arg->precision;
 	i = 0;
-	if ((new = ft_strnew((arg->width > len) ? arg->width : len)))
+	if ((new = ft_strnew(((size_t)arg->width > len) ? arg->width : len)))
 	{
-		while (!arg->left && i + len < arg->width)
+		while (!arg->left && i + len < (size_t)arg->width)
 			new[i++] = arg->zero ? '0' : ' ';
 		ft_memcpy(new + i, str, len);
 		i += len;

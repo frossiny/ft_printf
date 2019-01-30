@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/21 17:36:58 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/01/30 11:18:21 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void	parse_type(char *format, size_t i, t_arg *arg)
 
 void	parse_size(char *format, size_t i, t_arg *arg)
 {
-	int	ret;
-
 	arg->width = 0;
 	arg->precision = -1;
 	while (format[i] != '\0' && is_flag(format[i]))
@@ -79,8 +77,8 @@ void	parse_flags(char *format, size_t i, t_arg *arg)
 			arg->prefix = 1;
 		else if (format[i] == ' ')
 			arg->space = 1;
-		else if (format[i] == '0' &&
-			((arg->type != 'd' && arg->type != 'i') || arg->precision == -1))
+		else if (format[i] == '0' && ((arg->type != 'd' && arg->type != 'i'
+								&& arg->type != 'u')|| arg->precision == -1))
 			arg->zero = 1;
 		i++;
 	}
@@ -116,7 +114,6 @@ void	parse_args(char *format, t_arg **alst, va_list *args)
 {
 	size_t	i;
 	t_arg	*current;
-	t_arg	*new;
 
 	i = 0;
 	*alst = parse_arg(format, i);

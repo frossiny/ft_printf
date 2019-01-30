@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 15:06:21 by vsaltel           #+#    #+#             */
-/*   Updated: 2019/01/21 17:35:18 by vsaltel          ###   ########.fr       */
+/*   Updated: 2019/01/30 11:16:51 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	size_str(t_arg *list, unsigned int base, unsigned int *size)
 		(*size)++;
 	}
 	list->data.ull = value2;
-	if (list->precision > *size && list->precision != -1)
+	if ((unsigned int)list->precision > *size && list->precision != -1)
 		*size = list->precision;
 	if (list->prefix == -1 && list->data.ull != 0 &&
 			(list->type == 'x' || list->type == 'X'))
@@ -90,7 +90,7 @@ void		itoa_unsigned(t_arg *arg)
 	base = size_base(arg->type);
 	value2 = arg->data.ull;
 	size = size_str(arg, base, &size);
-	if (arg->width > size)
+	if ((unsigned int)arg->width > size)
 		size = arg->width;
 	if (!(arg->str = (char *)malloc(sizeof(char) * size + 1)))
 		return ;
