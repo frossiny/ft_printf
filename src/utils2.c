@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsaltel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/19 16:28:21 by vsaltel           #+#    #+#             */
-/*   Updated: 2019/01/17 16:58:57 by vsaltel          ###   ########.fr       */
+/*   Updated: 2019/02/01 17:17:42 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,34 @@ char	*create_base(unsigned int base, char maj)
 	}
 	str[x] = '\0';
 	return (str);
+}
+
+int		is_infinite(t_arg *arg)
+{
+	long	expo;
+	long	mantissa;
+
+	expo = arg->data.bin >> (arg->size == none ? 52 : 64);
+	expo &= (arg->size == none ? 0x7FF : 0x7FFF);
+	mantissa = arg->data.bin;
+	mantissa &= (arg->size == none ? 0xFFFFFFFFFFFFF : 0xFFFFFFFFFFFFFFFF);
+	if (arg->size == none)
+		return (expo == 0x7FF && mantissa == 0);
+	else
+		return (expo == 0x7FFF && mantissa == 0);
+}
+
+int		is_nan(t_arg *arg)
+{
+	long	expo;
+	long	mantissa;
+
+	expo = arg->data.bin >> (arg->size == none ? 52 : 64);
+	expo &= (arg->size == none ? 0x7FF : 0x7FFF);
+	mantissa = arg->data.bin;
+	mantissa &= (arg->size == none ? 0xFFFFFFFFFFFFF : 0xFFFFFFFFFFFFFFFF);
+	if (arg->size == none)
+		return (expo == 0x7FF && mantissa);
+	else
+		return (expo == 0x7FFF && mantissa);
 }

@@ -6,27 +6,27 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 17:06:42 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/21 17:33:27 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/01 16:52:33 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int					handle_exceptions(t_arg *arg, char buf[])
+int				handle_exceptions(t_arg *arg, char buf[])
 {
 	int		sign;
 	int		i;
 
-	sign = (arg->data.ull & 0x8000000000000000) > 0;
-	if ((arg->data.ull & 0x7FFFFFFFFFFFFFFF) == 0x7FF0000000000000)
+	sign = (arg->data.bin >> (arg->size == none ? 63 : 79)) & 1;
+	if (is_infinite(arg))
 	{
-		if (arg->type == 'A')
+		if (arg->type == 'F')
 			arg->str = ft_strdup(sign ? "-INF" : "INF");
 		else
 			arg->str = ft_strdup(sign ? "-inf" : "inf");
 		return (1);
 	}
-	else if (((arg->data.ull & 0x7FFFFFFFFFFFFFFF) >> 52) == 0x7FF)
+	else if (is_nan(arg))
 	{
 		i = 3;
 		ft_memcpy(buf, arg->type == 'f' ? "nan" : "NAN", 4);
@@ -41,23 +41,20 @@ int					handle_exceptions(t_arg *arg, char buf[])
 	return (0);
 }
 
-unsigned long long	fro(long double d, int precision)
+__int128_t		fro(long double d, int precision)
 {
 	long double	ld;
 
 	ld = d;
 	while (precision--)
 		ld *= 10;
-	if (ld > 0)
-		ld += 0.5;
-	else if (ld < 0)
-		ld -= 0.5;
-	return ((unsigned long long)ld);
+	ld += (ld > 0) ? 0.5 : -0.5;
+	return ((__int128_t)ld);
 }
 
-long				numtoarg(char buf[], unsigned long long n, int d)
+__int128_t		numtoarg(char buf[], __int128_t n, size_t d)
 {
-	long	i;
+	size_t	i;
 
 	i = 0;
 	while (n)
@@ -72,13 +69,13 @@ long				numtoarg(char buf[], unsigned long long n, int d)
 	return (i);
 }
 
-void				pad(char buf[], int *i, t_arg *arg)
+void			pad(char buf[], size_t *i, t_arg *arg)
 {
 	if (arg->prefix && arg->precision == 0)
 		buf[(*i)++] = '.';
 	buf[*i] = '\0';
 	ft_strrev(buf);
-	while (*i < arg->width - (arg->positive || arg->space) && arg->zero)
+	while (*i < (size_t)arg->width - (arg->positive || arg->space) && arg->zero)
 		buf[(*i)++] = '0';
 	if ((arg->positive || arg->space) && !(arg->data.ull & 0x8000000000000000))
 		buf[(*i)++] = arg->positive ? '+' : ' ';
@@ -86,36 +83,36 @@ void				pad(char buf[], int *i, t_arg *arg)
 	ft_strrev(buf);
 	if (!arg->left)
 		ft_strrev(buf);
-	while (*i < arg->width && !arg->zero)
+	while (*i < (size_t)arg->width && !arg->zero)
 		buf[(*i)++] = ' ';
 	buf[*i] = '\0';
 	if (!arg->left)
 		ft_strrev(buf);
 }
 
-void				handle_float(t_arg *arg)
+void			handle_float(t_arg *arg)
 {
 	char		buf[512];
-	int			i;
+	size_t		i;
 	long double	d;
 
 	if (handle_exceptions(arg, buf))
 		return ;
 	i = 0;
-	d = arg->data.ld;
-	if (arg->data.ull & 0x8000000000000000)
+	d = arg->size == none ? (long double)arg->data.d : arg->data.ld;
+	if ((arg->data.bin >> (arg->size == none ? 63 : 79)) & 1)
 		d *= -1;
-	if (arg->data.ull & 0x8000000000000000)
+	if ((arg->data.bin >> (arg->size == none ? 63 : 79)) & 1)
 		buf[i++] = '-';
 	if (d >= 1)
-		i += numtoarg(buf + i, fro(!arg->precision ? d : (long long)d, 0), 0);
+		i += numtoarg(buf + i, fro(!arg->precision ? d : (__int128_t)d, 0), 0);
 	else
 		buf[i++] = '0';
 	if (arg->precision > 0)
 	{
 		buf[i++] = '.';
 		i += numtoarg(buf + i,
-			fro((d - (long long)d), arg->precision), arg->precision);
+			fro((d - (__int128_t)d), arg->precision), arg->precision);
 	}
 	buf[i] = '\0';
 	pad(buf, &i, arg);

@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 14:50:59 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/21 17:34:56 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/01 14:03:41 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void		fill_arg(t_arg *alst, va_list *args)
 		fill_decimal(alst, args);
 	else if (alst->type == 'f' || alst->type == 'F')
 	{
-		if (alst->size == L)
+		if (alst->size == L || alst->size == l)
 			alst->data.ld = va_arg(*args, long double);
 		else
 			alst->data.d = va_arg(*args, double);

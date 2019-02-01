@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:47:37 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/30 10:14:47 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/01 16:52:17 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct				s_arg
 		long double			ld;
 		unsigned char		c;
 		void				*ptr;
+		__int128_t			bin;
 	}						data;
 	struct s_arg			*next;
 }							t_arg;
@@ -69,9 +70,11 @@ int							is_type(char c);
 void						del_list(t_arg **alst);
 int							ft_atoi_i(const char *str, size_t *i);
 size_t						ft_strcat_c(char *s1, const char *s2, int j);
-
 int							size_base(char c);
 char						*create_base(unsigned int base, char maj);
+int							is_infinite(t_arg *arg);
+int							is_nan(t_arg *arg);
+
 void						itoa_signed(t_arg *arg);
 void						itoa_unsigned(t_arg *arg);
 void						handle_float(t_arg *arg);
