@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 16:45:33 by frossiny          #+#    #+#             */
-/*   Updated: 2019/02/01 17:18:12 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/08 19:27:56 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	parse_type(char *format, size_t i, t_arg *arg)
 {
-	while (format[i] != '\0' && is_flag(format[i]))
+	while (is_flag(format[i]))
 		i++;
-	while (format[i] && (ft_isdigit(format[i]) || format[i] == '.'))
+	while (ft_isdigit(format[i]) || format[i] == '.' || format[i] == '*')
 		i++;
 	arg->size = none;
 	arg->type = '\0';
@@ -30,10 +30,7 @@ void	parse_type(char *format, size_t i, t_arg *arg)
 		i += (arg->size == hh || arg->size == ll) ? 2 : 1;
 	while (format[i] && is_size(format[i]))
 		i++;
-	if (format[i] == '\0')
-		arg->end = i - 1;
-	else
-		arg->end = i;
+	arg->end = (format[i] == '\0') ? i - 1 : i;
 	arg->type = format[i];
 }
 
@@ -43,20 +40,28 @@ void	parse_size(char *format, size_t i, t_arg *arg)
 	arg->precision = -1;
 	while (format[i] != '\0' && is_flag(format[i]))
 		i++;
-	if (format[i] == '\0' ||
-			(format[i] != '.' && (is_type(format[i]) || is_size(format[i]))))
+	if ((format[i] != '.' || format[i] != '*') &&
+							(is_type(format[i]) || is_size(format[i])))
 		return ;
 	if (format[i] == '.')
 	{
 		i++;
-		arg->precision = ft_atoi_i(format, &i);
+		arg->precision = (format[i] == '*') ? -2 : ft_atoi_i(format, &i);
 		return ;
 	}
-	arg->width = ft_atoi_i(format, &i);
+	arg->width = (format[i] == '*') ? -2 : ft_atoi_i(format, &i);
+	i += (arg->width == -2);
+	if (format[i] == '*')
+	{
+		arg->width = -2;
+		i++;
+	}
+	else if (ft_isdigit(format[i]))
+		arg->width = ft_atoi_i(format, &i);
 	if (format[i] == '.')
 	{
 		i++;
-		arg->precision = ft_atoi_i(format, &i);
+		arg->precision = (format[i] == '*') ? -2 : ft_atoi_i(format, &i);
 	}
 }
 
@@ -77,8 +82,8 @@ void	parse_flags(char *format, size_t i, t_arg *arg)
 			arg->prefix = 1;
 		else if (format[i] == ' ')
 			arg->space = 1;
-		else if (format[i] == '0' && ((arg->type != 'd' && arg->type != 'i'
-								&& arg->type != 'u') || arg->precision == -1))
+		else if (format[i] == '0' &&
+			((arg->type == 'f' || arg->type == 'F') || arg->precision == -1))
 			arg->zero = 1;
 		i++;
 	}
@@ -104,8 +109,6 @@ t_arg	*parse_arg(char *format, size_t i)
 		parse_type(format, i, new);
 		parse_size(format, i, new);
 		parse_flags(format, i, new);
-		if ((new->type == 'f' || new->type == 'F') && new->precision == -1)
-			new->precision = 6;
 	}
 	return (new);
 }

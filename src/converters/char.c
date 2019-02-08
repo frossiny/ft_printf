@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 16:22:56 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/30 10:09:08 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/08 18:36:32 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 void	handle_modulo(t_arg *arg)
 {
 	char	*str;
-	int		i;
+	size_t	i;
 
-	str = ft_strnew(arg->width);
+	str = ft_strnew(arg->width ? arg->width : 1);
 	if (!str)
 		arg->str = ft_strdup("%");
 	else
 	{
 		i = 0;
-		while (i < arg->width - 1)
+		while (arg->width && i < (unsigned)arg->width - 1)
 		{
 			str[i++] = arg->zero ? '0' : ' ';
 		}
@@ -37,19 +37,16 @@ void	handle_modulo(t_arg *arg)
 
 void	handle_char(t_arg *arg)
 {
-	int		i;
+	size_t	i;
 
 	i = 0;
-	if ((arg->str = ft_strnew(arg->width)))
+	if ((arg->str = ft_strnew(arg->width > 0 ? arg->width : 1)))
 	{
-		if (!arg->left)
-			while (i < arg->width - 1)
-				arg->str[i++] = arg->zero ? '0' : ' ';
+		while (!arg->left && arg->width && i < (unsigned)arg->width - 1)
+			arg->str[i++] = arg->zero ? '0' : ' ';
 		arg->str[i++] = (unsigned char)arg->data.c;
-		if (arg->left)
-			while (i < arg->width)
-				arg->str[i++] = arg->zero ? '0' : ' ';
-		arg->str[i] = '\0';
+		while (arg->left && i < (unsigned)arg->width)
+			arg->str[i++] = arg->zero ? '0' : ' ';
 	}
 	else
 		arg->str = ft_strdup("");
@@ -88,7 +85,7 @@ void	handle_str(t_arg *arg)
 	char	*str;
 	char	*new;
 	size_t	len;
-	int		i;
+	size_t	i;
 
 	str = (char *)arg->data.ptr;
 	if (!str)
@@ -103,7 +100,7 @@ void	handle_str(t_arg *arg)
 			new[i++] = arg->zero ? '0' : ' ';
 		ft_memcpy(new + i, str, len);
 		i += len;
-		while (arg->left && i < arg->width)
+		while (arg->left && i < (unsigned)arg->width)
 			new[i++] = arg->zero ? '0' : ' ';
 		new[i] = '\0';
 	}

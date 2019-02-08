@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:59:32 by frossiny          #+#    #+#             */
-/*   Updated: 2019/01/30 10:09:49 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/08 16:43:57 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int		size_str(t_arg *list)
 {
 	long long	value;
-	int			size;
+	size_t		size;
 
 	value = list->data.ll;
 	size = 0;
@@ -28,7 +28,7 @@ static int		size_str(t_arg *list)
 		value /= 10;
 		size++;
 	}
-	if (list->precision > size && list->precision != -1)
+	if ((unsigned)list->precision > size && list->precision != -1)
 		size = list->precision;
 	if (list->positive == -1 || list->data.ll < 0 || list->space == -1)
 		size++;
@@ -37,7 +37,7 @@ static int		size_str(t_arg *list)
 
 static void		fill_str(t_arg *list, unsigned int *size)
 {
-	int			nb;
+	size_t		nb;
 	long long	value;
 
 	nb = 0;
@@ -52,7 +52,7 @@ static void		fill_str(t_arg *list, unsigned int *size)
 		value /= 10;
 		nb++;
 	}
-	while (nb++ < list->precision && list->precision != -1)
+	while (nb++ < (unsigned)list->precision && list->precision != -1)
 		list->str[(*size)--] = '0';
 }
 

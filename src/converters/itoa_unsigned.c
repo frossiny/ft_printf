@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 15:06:21 by vsaltel           #+#    #+#             */
-/*   Updated: 2019/01/30 11:16:51 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/08 16:42:00 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	size_str(t_arg *list, unsigned int base, unsigned int *size)
 	list->data.ull = value2;
 	if ((unsigned int)list->precision > *size && list->precision != -1)
 		*size = list->precision;
-	if (list->prefix == -1 && list->data.ull != 0 &&
+	if (list->prefix && list->data.ull != 0 &&
 			(list->type == 'x' || list->type == 'X'))
 		*size = *size + 2;
 	return (*size);
@@ -38,14 +38,16 @@ static int	size_str(t_arg *list, unsigned int base, unsigned int *size)
 static void	fill_str(t_arg *list, unsigned int base, unsigned int *size)
 {
 	char			*base_str;
-	int				nb;
+	size_t			nb;
 
 	if ((base_str = create_base(base, list->type)) == NULL)
 		return ;
 	nb = 0;
 	if (list->data.ull == 0)
 		nb++;
-	if (list->data.ull == 0 && list->precision != 0)
+	if (list->type == 'o' && list->data.ull > 0 && list->prefix)
+		nb++;
+	if ((list->data.ull == 0 && list->precision != 0))
 		list->str[(*size)--] = '0';
 	else
 		while (list->data.ull > 0)
@@ -54,22 +56,22 @@ static void	fill_str(t_arg *list, unsigned int base, unsigned int *size)
 			list->data.ull = list->data.ull / base;
 			nb++;
 		}
-	while (nb++ < list->precision && list->precision != -1)
+	while (nb++ < (unsigned)list->precision && list->precision != -1)
 		list->str[(*size)--] = '0';
 	free(base_str);
 }
 
 static void	fill_option(t_arg *arg, char *str, int size)
 {
-	if ((arg->type == 'x' || arg->type == 'X') && arg->zero == -1
-			&& arg->prefix == -1 && arg->data.ull != 0)
+	if ((arg->type == 'x' || arg->type == 'X') && arg->zero
+			&& arg->prefix && arg->data.ull != 0)
 	{
 		str[1] = 'x';
 		if (arg->type == 'X')
 			str[1] = 'X';
 		str[0] = '0';
 	}
-	else if ((arg->type == 'x' || arg->type == 'X') && arg->prefix == -1
+	else if ((arg->type == 'x' || arg->type == 'X') && arg->prefix
 			&& arg->data.ull != 0)
 	{
 		str[size] = 'x';
@@ -77,7 +79,8 @@ static void	fill_option(t_arg *arg, char *str, int size)
 			str[size] = 'X';
 		str[size - 1] = '0';
 	}
-	else if (arg->type == 'o' && arg->prefix == -1)
+	else if ((arg->type == 'o' && arg->prefix && arg->data.ull != 0)
+				|| (arg->type == 'o' && arg->prefix && arg->precision == 0))
 		str[size] = '0';
 }
 
@@ -94,9 +97,9 @@ void		itoa_unsigned(t_arg *arg)
 		size = arg->width;
 	if (!(arg->str = (char *)malloc(sizeof(char) * size + 1)))
 		return ;
-	ft_memset(arg->str, (arg->zero == -1 && arg->left == 0) ? '0' : ' ', size);
+	ft_memset(arg->str, (arg->zero) ? '0' : ' ', size);
 	arg->str[size--] = '\0';
-	if (arg->left == -1)
+	if (arg->left)
 		size = size_str(arg, base, &size) - 1;
 	fill_str(arg, base, &size);
 	arg->data.ull = value2;

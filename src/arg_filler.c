@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 14:50:59 by frossiny          #+#    #+#             */
-/*   Updated: 2019/02/01 14:03:41 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/08 19:19:30 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,18 @@ void		fill_arg(t_arg *alst, va_list *args)
 {
 	if (!alst || !args)
 		return ;
+	if (alst->width == -2)
+		alst->width = va_arg(*args, int);
+	alst->left = alst->left || alst->width < 0;
+	alst->width = alst->width < 0 ? -(alst->width) : alst->width;
+	if (alst->precision == -2)
+		alst->precision = va_arg(*args, int);
+	alst->precision = alst->precision < 0 ? -1 : alst->precision;
 	if (ft_strchr("bdiouxX", alst->type) != NULL)
 		fill_decimal(alst, args);
 	else if (alst->type == 'f' || alst->type == 'F')
 	{
-		if (alst->size == L || alst->size == l)
+		if (alst->size == L)
 			alst->data.ld = va_arg(*args, long double);
 		else
 			alst->data.d = va_arg(*args, double);
@@ -57,5 +64,7 @@ void		fill_arg(t_arg *alst, va_list *args)
 		alst->data.ptr = va_arg(*args, char *);
 	else if (alst->type == 'p')
 		alst->data.ptr = va_arg(*args, void *);
+	if ((alst->type == 'f' || alst->type == 'F') && alst->precision < 0)
+		alst->precision = 6;
 	convert(alst);
 }
