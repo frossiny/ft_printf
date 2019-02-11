@@ -34,37 +34,6 @@ void	parse_type(char *format, size_t i, t_arg *arg)
 	arg->type = format[i];
 }
 
-void	parse_size(char *format, size_t i, t_arg *arg)
-{
-	arg->width = 0;
-	arg->precision = -1;
-	while (format[i] != '\0' && is_flag(format[i]))
-		i++;
-	if ((format[i] != '.' || format[i] != '*') &&
-							(is_type(format[i]) || is_size(format[i])))
-		return ;
-	if (format[i] == '.')
-	{
-		i++;
-		arg->precision = (format[i] == '*') ? -2 : ft_atoi_i(format, &i);
-		return ;
-	}
-	arg->width = (format[i] == '*') ? -2 : ft_atoi_i(format, &i);
-	i += (arg->width == -2);
-	if (format[i] == '*')
-	{
-		arg->width = -2;
-		i++;
-	}
-	else if (ft_isdigit(format[i]))
-		arg->width = ft_atoi_i(format, &i);
-	if (format[i] == '.')
-	{
-		i++;
-		arg->precision = (format[i] == '*') ? -2 : ft_atoi_i(format, &i);
-	}
-}
-
 void	parse_flags(char *format, size_t i, t_arg *arg)
 {
 	arg->left = 0;

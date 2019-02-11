@@ -12,6 +12,25 @@
 
 #include "ft_printf.h"
 
+static void	fill_size(t_arg *alst, va_list *args)
+{
+	if (alst->width == -2)
+	{
+		alst->width = va_arg(*args, int);
+		alst->skipArgs--;
+	}
+	alst->left = alst->left || alst->width < 0;
+	alst->width = alst->width < 0 ? -(alst->width) : alst->width;
+	if (alst->precision == -2)
+	{
+		alst->precision = va_arg(*args, int);
+		alst->skipArgs--;
+	}
+	alst->precision = alst->precision < 0 ? -1 : alst->precision;
+	while (alst->skipArgs--)
+		(void)va_args(*args, int);
+}
+
 static void	fill_decimal(t_arg *alst, va_list *args)
 {
 	if (alst->type == 'd' || alst->type == 'i')
@@ -42,13 +61,7 @@ void		fill_arg(t_arg *alst, va_list *args)
 {
 	if (!alst || !args)
 		return ;
-	if (alst->width == -2)
-		alst->width = va_arg(*args, int);
-	alst->left = alst->left || alst->width < 0;
-	alst->width = alst->width < 0 ? -(alst->width) : alst->width;
-	if (alst->precision == -2)
-		alst->precision = va_arg(*args, int);
-	alst->precision = alst->precision < 0 ? -1 : alst->precision;
+	fill_size(alst, args);
 	if (ft_strchr("bdiouxX", alst->type) != NULL)
 		fill_decimal(alst, args);
 	else if (alst->type == 'f' || alst->type == 'F')
