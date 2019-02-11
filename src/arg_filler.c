@@ -28,7 +28,7 @@ static void	fill_size(t_arg *alst, va_list *args)
 	}
 	alst->precision = alst->precision < 0 ? -1 : alst->precision;
 	while (alst->skipArgs--)
-		(void)va_args(*args, int);
+		(void)va_arg(*args, int);
 }
 
 static void	fill_decimal(t_arg *alst, va_list *args)
