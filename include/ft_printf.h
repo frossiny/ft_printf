@@ -62,7 +62,7 @@ typedef struct				s_arg
 int							ft_printf(char *format, ...);
 void						parse_args(char *format, t_arg **alst,
 													va_list *args);
-void						parse_size(char *format, size_t i, t_arg *arg)
+void						parse_size(char *format, size_t i, t_arg *arg);
 void						fill_arg(t_arg *alst, va_list *args);
 void						convert(t_arg *arg);
 
