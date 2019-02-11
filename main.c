@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 21:10:29 by ratin             #+#    #+#             */
-/*   Updated: 2019/02/08 19:24:53 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/11 22:51:05 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -463,8 +463,12 @@ int		main(void)
 	ft_printf("Mon printf: %*.*f\n", 15, 2, 123.4567);
 	ft_putchar('\n');
 
-	printf("Rea printf: %15*.*f\n", 10, 2, 123.4567);
-	ft_printf("Mon printf: %15*.*f\n", 10, 2, 123.4567);
+	printf("Rea printf: %15*.*f\n", 10, 2, 256.4567);
+	ft_printf("Mon printf: %15*.*f\n", 10, 2, 256.4567);
+	ft_putchar('\n');
+
+	printf("Rea printf: %*15.*f\n", 10, 2, 123.4567);
+	ft_printf("Mon printf: %*15.*f\n", 10, 2, 123.4567);
 	ft_putchar('\n');
 
 	printf("Rea printf: |%*15.3*f|\n", 10, 2, 123.4567);
@@ -477,6 +481,10 @@ int		main(void)
 
 	printf("Rea printf: |%15*.*3f|\n", 10, 2, 123.4567);
 	ft_printf("Mon printf: |%15*.*3f|\n", 10, 2, 123.4567);
+	ft_putchar('\n');
+
+	printf("Rea printf: |%15*2d|\n", 10, 123);
+	ft_printf("Mon printf: |%15*2d|\n", 10, 123);
 	ft_putchar('\n');
 
 	printf("--------- PREC ---------\n");

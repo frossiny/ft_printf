@@ -6,29 +6,29 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 14:50:59 by frossiny          #+#    #+#             */
-/*   Updated: 2019/02/08 19:19:30 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/11 22:38:47 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+#include <stdio.h>
 static void	fill_size(t_arg *alst, va_list *args)
 {
-	if (alst->width == -2)
+	printf("Skip: %d\n", alst->skipArgs);
+	if (alst->skipArgs)
 	{
+		(void)va_arg(*args, int);
+		if (alst->skipArgs & 2 || alst->skipArgs >= 4)
+			alst->width = 0;
+	} 
+	else if (alst->width == -2)
 		alst->width = va_arg(*args, int);
-		alst->skipArgs--;
-	}
 	alst->left = alst->left || alst->width < 0;
 	alst->width = alst->width < 0 ? -(alst->width) : alst->width;
 	if (alst->precision == -2)
-	{
 		alst->precision = va_arg(*args, int);
-		alst->skipArgs--;
-	}
 	alst->precision = alst->precision < 0 ? -1 : alst->precision;
-	while (alst->skipArgs--)
-		(void)va_arg(*args, int);
 }
 
 static void	fill_decimal(t_arg *alst, va_list *args)
