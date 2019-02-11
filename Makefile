@@ -19,6 +19,7 @@ INCDIR	=	include
 OBJDIR	=	objs
 FILES 	=	ft_printf.c					\
 			arg_parser.c				\
+			size_parser.c				\
 			arg_filler.c				\
 			converter.c					\
 			utils.c						\
