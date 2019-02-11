@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-static void	get_arg(char *format, t_arg *arg, int isWidth, int *i)
+static void	get_arg(char *format, t_arg *arg, int isWidth, size_t *i)
 {
 	if (isWidth)
 	{
