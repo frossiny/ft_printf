@@ -449,7 +449,7 @@ int		main(void)
 
 	printf("Rea printf: %*d\n", 10, 123);
 	ft_printf("Mon printf: %*d\n", 10, 123);
-	ft_putchar('\n'); 
+	ft_putchar('\n');
 
 	printf("Rea printf: |%*d|\n", -10, 123);
 	ft_printf("Mon printf: |%*d|\n", -10, 123);
@@ -465,6 +465,10 @@ int		main(void)
 
 	printf("Rea printf: %15*.*f\n", 10, 2, 123.4567);
 	ft_printf("Mon printf: %15*.*f\n", 10, 2, 123.4567);
+	ft_putchar('\n');
+
+	printf("Rea printf: |%*15.3*f|\n", 10, 2, 123.4567);
+	ft_printf("Mon printf: |%*15.3*f|\n", 10, 2, 123.4567);
 	ft_putchar('\n');
 
 	printf("Rea printf: |%15*.3*f|\n", 10, 2, 123.4567);
