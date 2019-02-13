@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:47:37 by frossiny          #+#    #+#             */
-/*   Updated: 2019/02/13 14:37:19 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/13 14:43:47 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdarg.h>
 # include "libft.h"
 
-# define BUFF_SIZE	2048
+# define BUFF_SIZE			2048
 
 typedef enum				e_asize
 {
