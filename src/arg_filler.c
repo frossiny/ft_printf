@@ -6,22 +6,20 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 14:50:59 by frossiny          #+#    #+#             */
-/*   Updated: 2019/02/11 22:38:47 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/13 14:37:46 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-#include <stdio.h>
 static void	fill_size(t_arg *alst, va_list *args)
 {
-	printf("Skip: %d\n", alst->skipArgs);
-	if (alst->skipArgs)
+	if (alst->skipargs)
 	{
 		(void)va_arg(*args, int);
-		if (alst->skipArgs & 2 || alst->skipArgs >= 4)
+		if (alst->skipargs & 2 || alst->skipargs >= 4)
 			alst->width = 0;
-	} 
+	}
 	else if (alst->width == -2)
 		alst->width = va_arg(*args, int);
 	alst->left = alst->left || alst->width < 0;

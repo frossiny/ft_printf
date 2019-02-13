@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 19:31:38 by ratin             #+#    #+#             */
-/*   Updated: 2019/02/08 15:47:49 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/13 13:54:41 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,12 @@ int main()
 	ret = ft_printf("size + 0 + plus:%+05f\n", nb);
 	printf("\n");
 	ret2 = dprintf(2, "size + 0 + plus:%+05f\n", nb);
+	printf("ret =%d ret2 = %d", ret, ret2);	
+	printf("\n\n");	
+
+	ret = ft_printf("size + 0 + plus:%+05f\n", -nb);
+	printf("\n");
+	ret2 = dprintf(2, "size + 0 + plus:%+05f\n", -nb);
 	printf("ret =%d ret2 = %d", ret, ret2);	
 	printf("\n\n");	
 	

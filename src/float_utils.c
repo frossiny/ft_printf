@@ -6,13 +6,13 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 15:31:08 by frossiny          #+#    #+#             */
-/*   Updated: 2019/02/08 18:06:14 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/13 13:34:44 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		is_infinite(t_arg *arg)
+int			is_infinite(t_arg *arg)
 {
 	long	expo;
 	long	mantissa;
@@ -27,7 +27,7 @@ int		is_infinite(t_arg *arg)
 		return (expo == 0x7FF && mantissa == 0);
 }
 
-int		is_nan(t_arg *arg)
+int			is_nan(t_arg *arg)
 {
 	long	expo;
 	long	mantissa;
@@ -42,12 +42,20 @@ int		is_nan(t_arg *arg)
 		return (expo == 0x7FF && mantissa);
 }
 
-int		is_float_neg(t_arg *arg)
+int			is_float_neg(t_arg *arg)
 {
 	return ((arg->data.bin >> (arg->size == L ? 79 : 63)) & 1);
 }
 
-void	handle_inf(t_arg *arg)
+__int128_t	fround(long double d, int precision)
+{
+	while (precision--)
+		d *= 10;
+	d += (d > 0) ? 0.5 : -0.5;
+	return ((__int128_t)d);
+}
+
+void		handle_inf(t_arg *arg)
 {
 	size_t	len;
 	size_t	i;
