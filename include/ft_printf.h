@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 15:47:37 by frossiny          #+#    #+#             */
-/*   Updated: 2019/02/13 14:43:47 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/13 15:03:57 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct				s_arg
 	long					width;
 	t_asize					size;
 	int						skipargs;
+	int						wildcards;
 	union
 	{
 		long long			ll;

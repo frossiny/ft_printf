@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 14:50:59 by frossiny          #+#    #+#             */
-/*   Updated: 2019/02/13 14:37:46 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/13 15:33:03 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,21 @@
 
 static void	fill_size(t_arg *alst, va_list *args)
 {
-	if (alst->skipargs)
+	if (alst->wildcards)
 	{
-		(void)va_arg(*args, int);
+		alst->wildcards -= ((alst->width == -2) + (alst->precision == -2));
+		while (alst->wildcards-- > 0)
+			(void)va_arg(*args, int);
 		if (alst->skipargs & 2 || alst->skipargs >= 4)
+		{
+			(void)va_arg(*args, int);
 			alst->width = 0;
+		}
 	}
-	else if (alst->width == -2)
+	if (alst->width == -2)
 		alst->width = va_arg(*args, int);
+	if (alst->width > 2147483647 || alst->width < -2147483647)
+		alst->width = 0;
 	alst->left = alst->left || alst->width < 0;
 	alst->width = alst->width < 0 ? -(alst->width) : alst->width;
 	if (alst->precision == -2)

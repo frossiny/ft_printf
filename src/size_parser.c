@@ -6,7 +6,7 @@
 /*   By: frossiny <frossiny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/11 12:36:30 by frossiny          #+#    #+#             */
-/*   Updated: 2019/02/13 14:37:46 by frossiny         ###   ########.fr       */
+/*   Updated: 2019/02/13 15:21:27 by frossiny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	get_width(char *format, t_arg *arg, size_t *i)
 	if (format[*i] == '*')
 	{
 		arg->width = -2;
+		arg->wildcards++;
 		(*i)++;
 	}
 	else
@@ -34,6 +35,7 @@ static void	get_prec(char *format, t_arg *arg, size_t *i)
 		if (arg->precision > -1 && arg->skipargs)
 			arg->skipargs |= 4;
 		arg->precision = -2;
+		arg->wildcards++;
 		(*i)++;
 	}
 	else
@@ -53,6 +55,7 @@ void		parse_size(char *format, size_t i, t_arg *arg)
 	arg->width = 0;
 	arg->precision = -1;
 	arg->skipargs = 0;
+	arg->wildcards = 0;
 	while (format[i] != '\0' && is_flag(format[i]))
 		i++;
 	if ((format[i] != '.' || format[i] != '*') &&
@@ -65,7 +68,12 @@ void		parse_size(char *format, size_t i, t_arg *arg)
 	{
 		i++;
 		get_prec(format, arg, &i);
-		if (arg->width && (format[i] == '*' || ft_isdigit(format[i])))
+		while (arg->width && (format[i] == '*' || ft_isdigit(format[i])))
+		{
 			arg->skipargs |= 4;
+			if (format[i] == '*')
+				arg->wildcards++;
+			i++;
+		}
 	}
 }
